@@ -18,8 +18,11 @@ instance Functor EitherAux where
      fmap f (EitherAux(Left a)) = EitherAux(Left( f a)) 
      
 instance Functor PairAux where
-     fmap f (PairAux(a,b)) =  PairAux(f a, f b)
+     fmap f (PairAux (a,b)) =  PairAux(f a, f b)
 
+instance (Functor t) => Functor (M2Aux t) where
+     fmap f (M2Aux t) = M2Aux $ (fmap) f' t where
+          f' a = (f a, f a)
 -- \ \ ---
 
 newtype M2 t a = M2 {runM2 :: (t (Either a a), t (Either a a)) }
