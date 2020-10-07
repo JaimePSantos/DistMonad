@@ -6,11 +6,11 @@ import Control.Applicative
 import System.IO
 
 
-newtype M2Aux t a = M2Aux {runM2Aux :: (t a, t a)} deriving Show
-
 newtype EitherAux a = EitherAux (Either a a) deriving Show
 newtype PairAux a = PairAux ((a,a)) deriving Show
+newtype ProtoM2 t a = ProtoM2(t a) deriving Show
 
+newtype M2Aux t a = M2Aux {runM2Aux :: (t a, t a)} deriving Show
 
 
 instance Functor EitherAux where
@@ -20,9 +20,13 @@ instance Functor EitherAux where
 instance Functor PairAux where
      fmap f (PairAux (a,b)) =  PairAux(f a, f b)
 
+instance Functor t => Functor(ProtoM2 t) where
+     fmap f (ProtoM2 t) = ProtoM2 $ fmap f t
+
+-- nao estou a conseguir definir o funtor quando a monad esta dentro de um tuplo!
 -- instance (Functor t) => Functor (M2Aux t) where
-     -- fmap f (M2Aux t) = M2Aux $ (fmap) f' t where
-          -- f' a = (f a, f a)
+     -- fmap f (M2Aux t) = M2Aux $ (fmap.fmap) f t
+
 -- \ \ ---
 
 newtype M2 t a = M2 {runM2 :: (t (Either a a), t (Either a a)) }
