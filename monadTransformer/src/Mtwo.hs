@@ -11,10 +11,12 @@ import System.IO
 newtype M2 t a = M2 {runM2 :: (t (Either a a), t (Either a a)) }
 instance (Functor m) => Functor (M2 m) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
-     fmap f (M2 m) = M2 $ (fmap.fmap) f' m where
-         f'(a,b) = (f a, f b)
+     fmap f (M2 t) = M2 $ (fmap.fmap) f t
+     -- fmap f (M2 t) = M2 $ (fmap.fmap) f' t where
+          -- f' (par) = ?
 
-    --  fmap = undefined
+     -- fmap = undefined
+
 instance (Monad t) => Applicative (M2 t) where
      pure :: a -> M2 t a
      pure  = return
