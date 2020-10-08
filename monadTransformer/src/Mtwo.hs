@@ -21,13 +21,16 @@ import Data.Tuple
 -- newtype PairAux a = PairAux ((a,a)) deriving Show
 
 data Twice a = First a | Second a deriving Show
--- data Square a = Pair(a,a) deriving Show
+data Square a = Square(a,a) deriving Show
 
-data SquareTwice a = Pair(Twice a, Twice a) deriving Show
+data SquareTwice a = SquareTwice(Square(Twice a)) deriving Show
 
-newtype M2Aux t a = M2Aux {runM2Aux :: (t a, t a)} deriving Show
+data M2Aux t a = M2Aux(SquareTwice(t a) ) deriving Show
 
+-- data M2Aux t a = M2Aux(t (Twice a), t (Twice a))
+-- data M2Aux t a = M2Aux(Square(Twice( t a)))
 
+     
 instance Functor Twice where
      fmap f (First a) = First( f a)
      fmap f (Second a) = Second( f a) 
@@ -36,13 +39,17 @@ instance Functor Twice where
      -- fmap f (Pair(a,b)) = Pair $ (f a, f b)
 
 instance Functor SquareTwice where
-     fmap f (Pair(First a,First b)) = Pair (First $ f a,  First $ f b)
-     fmap f (Pair(First a,Second b)) = Pair (First $ f a,  Second $ f b)
-     fmap f (Pair(Second a,First b)) = Pair (Second $ f a,  First $ f b)
-     fmap f (Pair(Second a,Second b)) = Pair (Second $ f a,  Second $ f b)
+     fmap f (SquareTwice(Square(First a,First b))) = SquareTwice $ Square (First $ f a,  First $ f b)
+     fmap f (SquareTwice(Square(First a,Second b))) =SquareTwice $ Square (First $ f a,  Second $ f b)
+     fmap f (SquareTwice(Square(Second a,First b))) = SquareTwice $ Square (Second $ f a,  First $ f b)
+     fmap f (SquareTwice(Square(Second a,Second b))) =SquareTwice $ Square (Second $ f a,  Second $ f b)
 
--- instance Functor t => Functor(ProtoM2 t) where
-     -- fmap f (ProtoM2 t) = ProtoM2 $ fmap f t
+-- instance (Functor t) => Functor(M2Aux t a) where
+     -- fmap f M2Aux(SquareTwice(Square(t(First a),t(First b)))) = undefined
+
+     -- fmap f ((First a,Second b)) = Pair (First $ f a,  Second $ f b)
+     -- fmap f ((Second a,First b)) = Pair (Second $ f a,  First $ f b)
+     -- fmap f ((Second a,Second b)) = Pair (Second $ f a,  Second $ f b)
 
 -- nao estou a conseguir definir o funtor quando a monad esta dentro de um tuplo!
 -- instance (Functor t) => Functor (M2Aux t) where
