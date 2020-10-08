@@ -4,34 +4,45 @@ module Mtwo where
 import Control.Monad 
 import Control.Applicative
 import System.IO
-
+import Data.Tuple
 
 
 -- sim, estao certos agora o either e o Pair
 -- nao vale a pena e acrescentar construtures so como wrappers, em especial o do Either.
 -- podes fazer antes:
--- data Twice a = First a | Second a
 -- type Square a = Pair {pi1 :: a, pi2 :: a} 
+-- data Twice a = First a | Second a deriving Show
+
 -- e as definições depois ficam mais limpas.
 
 -- O M2 é que ainda ainda nao bem. A ideia á usares o Twice (i.e. EitherAux) e o Square (i.e. PairAux) para definir o M2.
 
-newtype EitherAux a = EitherAux (Either a a) deriving Show
-newtype PairAux a = PairAux ((a,a)) deriving Show
-newtype ProtoM2 t a = ProtoM2(t a) deriving Show
+-- newtype EitherAux a = EitherAux (Either a a) deriving Show
+-- newtype PairAux a = PairAux ((a,a)) deriving Show
+
+data Twice a = First a | Second a deriving Show
+-- data Square a = Pair(a,a) deriving Show
+
+data SquareTwice a = Pair(Twice a, Twice a) deriving Show
 
 newtype M2Aux t a = M2Aux {runM2Aux :: (t a, t a)} deriving Show
 
 
-instance Functor EitherAux where
-     fmap f (EitherAux(Right a)) = EitherAux(Right( f a))
-     fmap f (EitherAux(Left a)) = EitherAux(Left( f a)) 
+instance Functor Twice where
+     fmap f (First a) = First( f a)
+     fmap f (Second a) = Second( f a) 
      
-instance Functor PairAux where
-     fmap f (PairAux (a,b)) =  PairAux(f a, f b)
+-- instance Functor Square where
+     -- fmap f (Pair(a,b)) = Pair $ (f a, f b)
 
-instance Functor t => Functor(ProtoM2 t) where
-     fmap f (ProtoM2 t) = ProtoM2 $ fmap f t
+instance Functor SquareTwice where
+     fmap f (Pair(First a,First b)) = Pair (First $ f a,  First $ f b)
+     fmap f (Pair(First a,Second b)) = Pair (First $ f a,  Second $ f b)
+     fmap f (Pair(Second a,First b)) = Pair (Second $ f a,  First $ f b)
+     fmap f (Pair(Second a,Second b)) = Pair (Second $ f a,  Second $ f b)
+
+-- instance Functor t => Functor(ProtoM2 t) where
+     -- fmap f (ProtoM2 t) = ProtoM2 $ fmap f t
 
 -- nao estou a conseguir definir o funtor quando a monad esta dentro de um tuplo!
 -- instance (Functor t) => Functor (M2Aux t) where
