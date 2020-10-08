@@ -6,6 +6,16 @@ import Control.Applicative
 import System.IO
 
 
+
+-- sim, estao certos agora o either e o Pair
+-- nao vale a pena e acrescentar construtures so como wrappers, em especial o do Either.
+-- podes fazer antes:
+-- data Twice a = First a | Second a
+-- type Square a = Pair {pi1 :: a, pi2 :: a} 
+-- e as definições depois ficam mais limpas.
+
+-- O M2 é que ainda ainda nao bem. A ideia á usares o Twice (i.e. EitherAux) e o Square (i.e. PairAux) para definir o M2.
+
 newtype EitherAux a = EitherAux (Either a a) deriving Show
 newtype PairAux a = PairAux ((a,a)) deriving Show
 newtype ProtoM2 t a = ProtoM2(t a) deriving Show
