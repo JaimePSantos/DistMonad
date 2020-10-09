@@ -5,7 +5,7 @@ import Control.Monad
 import Control.Applicative
 import System.IO
 import Data.Tuple
-
+import Control.Applicative
 
 -- sim, estao certos agora o either e o Pair
 -- nao vale a pena e acrescentar construtures so como wrappers, em especial o do Either.
@@ -35,10 +35,21 @@ data SquareTwice a = SquareTwice((Twice a, Twice a)) deriving Show
 
 data M2 t a = M2 ( SquareTwice( t a)) deriving Show
 
-     
 instance Functor Twice where
      fmap f (First a) = First( f a)
      fmap f (Second a) = Second( f a) 
+
+instance Applicative Twice where
+     pure a = First a
+     First f <*> First a = First(f a)
+     Second f <*> Second a = Second(f a) 
+     --duvida em como emparelhar elementos diferentes do tipo
+     -- Second f <*> First a = First(f a)
+     -- First f <*> Second a = Second(f a)
+
+instance Monad Twice where
+     return = pure
+     (>>=) = undefined
      
 instance Functor SquareTwice where
      fmap f (SquareTwice(First a,First b)) = SquareTwice (First $ f a,  First $ f b)
@@ -46,20 +57,42 @@ instance Functor SquareTwice where
      fmap f (SquareTwice(Second a,First b)) = SquareTwice (Second $ f a,  First $ f b)
      fmap f (SquareTwice(Second a,Second b)) =SquareTwice (Second $ f a,  Second $ f b)
 
+instance Applicative SquareTwice where
+     pure = return
+     (<*>) = undefined
+
+instance Monad SquareTwice where
+     return = pure
+     (>>=) = undefined
+
+-- \\ -- \\ -- \\ -- \\ --
+
 instance (Functor t) => Functor(M2 t ) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
      fmap f (M2 t) = M2 $ (fmap.fmap) f t
 
 instance (Monad t) => Applicative (M2 t) where
      pure :: a -> M2 t a
-     pure  = return
-     (<*>) = ap    
+     pure = M2 . pure .pure
+     M2 f <*> M2 t = M2 $ (<*>) <$> f <*> t
+     -- (<*>) = ap
 
 instance (Monad t) => Monad (M2 t) where
+     return :: a -> M2 t a
+     return = pure
      (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
-     (>>=)  = undefined    
+     (>>=)= undefined
+
+-- \\ -- \\ -- \\ -- \\ --
+
 
 a = M2 $ SquareTwice (First [1],Second [2])
 b = M2 $ SquareTwice (First (Just 1),Second Nothing)
-plusTwo = fmap (+2) a
-plusTwo' = fmap(+2) b
+c = M2 $ SquareTwice (First [1],Second [2])
+
+plusTwo = (+2) 
+plusTwo' = (+2) 
+
+aux = M2 $(SquareTwice(First[(+2)],Second[(+2)]))
+
+plusTwo'' = aux <*> a -- esta a dar erro indefinido :(
