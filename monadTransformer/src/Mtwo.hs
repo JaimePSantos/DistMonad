@@ -1,4 +1,6 @@
 {-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE FlexibleInstances #-}
+
 module Mtwo where
 
 import Control.Monad 
@@ -20,12 +22,22 @@ import Control.Applicative
 --Helper structures
 data Twice a = First a | Second a deriving Show
 data Square a = Pair(a,a) deriving Show
+data Square' a =Pair'{pi1 :: a, pi2 :: a} deriving Show
 
-data Square' t a = Pair'(t  a, t  a) deriving Show
+-- data TTwice t a = TTwice(t(Twice a)) deriving
 
-data M2' t a = M2' (Square' t ( Twice a)) deriving Show
+data M2' t a =  M2' (Square( t a)) --deriving Show
+data M2 t a = M2(Square (t ( Twice a))) --deriving Show
 
+instance (Show a) => Show (M2 [] a) where
+     show(M2 x) = "(M2 " ++ show (x) ++ ")"
 
+instance (Show a) => Show (M2 Maybe a) where
+     show(M2 x) = "(M2 " ++ show (x) ++ ")"
+-- instance ((Show(t a))) => Show(M2 t a) where
+     -- show (M2 x) = "(M2 " ++ show (x) ++ ")"
+-- dificuldades a implementar o show
+-- erro:  Could not deduce (Show (t (Twice a))) arising from a use of `show'
 
 --Twice
 instance Functor Twice where
