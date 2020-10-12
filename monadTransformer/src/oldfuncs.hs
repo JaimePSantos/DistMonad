@@ -30,6 +30,7 @@
 --      fmap f (SquareTwice(Second a,First b)) = SquareTwice (Second $ f a,  First $ f b)
 --      fmap f (SquareTwice(Second a,Second b)) =SquareTwice (Second $ f a,  Second $ f b)
 
+--hello
 -- instance Applicative SquareTwice where
 --      pure = return
 --      (SquareTwice(First f,First g)) <*> (SquareTwice(First a,First b)) = SquareTwice (First $ f a,  First $ g b)
