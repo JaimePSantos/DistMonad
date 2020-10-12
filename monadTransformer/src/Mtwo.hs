@@ -21,11 +21,15 @@ import Control.Applicative
 data Twice a = First a | Second a deriving Show
 data Square a = Pair(a,a) deriving Show
 
-data Square' t a = Pair'(t  a, t  a) deriving Show
+data M2' t a =  M2' (Square( t a)) deriving Show
 
-data M2' t a = M2' (Square' t ( Twice a)) deriving Show
+data Square' a =Pair'{pi1 :: a, pi2 :: a} deriving Show
+data M2 t a = M2 (Square (t ( Twice a))) deriving Show
 
 
+-- instance (Show t,Show a) => Show( M2 t a) where 
+-- dificuldades a implementar o show
+-- o ghc queixa-se do kind do t
 
 --Twice
 instance Functor Twice where
