@@ -53,6 +53,8 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
 
 
 data M2 t a = M2 (Square (t ( Twice a)))
+data M2' t a = M2' (Square' (t ( Twice a)))
+
 
 
 -- aqui esta o que e necessario para fazer o Show funcionar
@@ -78,7 +80,14 @@ instance (Show1 t) => Show1 (M2 t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
+instance (Show1 t) => Show1 (M2' t) where
+    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2' t a -> ShowS
+    liftShowsPrec sp l d (M2' (Pair' x y)) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
+      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
+            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
+
 instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+
 
 
 
