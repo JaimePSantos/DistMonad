@@ -1,5 +1,7 @@
 {-# LANGUAGE InstanceSigs #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DeriveAnyClass #-}
 
 module Mtwo where
 
@@ -8,45 +10,108 @@ import Control.Applicative
 import System.IO
 import Data.Tuple
 import Control.Applicative
+import Data.Functor.Classes
 
 -- sim, estao certos agora o either e o Pair
 -- nao vale a pena e acrescentar construtures so como wrappers, em especial o do Either.
 -- podes fazer antes:
 -- type Square a = Pair {pi1 :: a, pi2 :: a} 
--- data Twice a = First a | Second a deriving Show
+-- data Twice a = In1 a | In2 a deriving Show
 
 -- e as definições depois ficam mais limpas.
 
 -- O M2 é que ainda ainda nao bem. A ideia á usares o Twice (i.e. EitherAux) e o Square (i.e. PairAux) para definir o M2.
 
 --Helper structures
-data Twice a = First a | Second a deriving Show
-data Square a = Pair(a,a) deriving Show
-data Square' a =Pair'{pi1 :: a, pi2 :: a} deriving Show
+data Twice a  = In1 a | In2 a       -- this is the functor T(A) = A + A with injections In1 and In2
+data Square a = Pair(a,a)     
+data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A with projections pi1 and pi2
+
+
+{--
+    To do: define the product and coproduct universal properties for these
+           types, namely the functions "either" and "split" but instanciated
+           to coproducts/products where both components are the same set.
+      
+           I.e. the usual either and split have types:
+              either :: (a -> c) -> (b -> c) -> (Either a b -> c)
+              split  :: (c -> a) -> (c -> b) -> (c -> Pair a b)
+           We just need to make similar functions but with a = b, namely:
+              eitherT :: (a -> c) -> (a -> c) -> (Twice a -> c)
+              splitS  :: (c -> a) -> (c -> a) -> (c -> Square a)
+           such that they satisfy
+              either f g == twice2either . eitherT f g
+              split  f g == square2pair  . eitherT f g
+           for the obvious isomorphisms:
+              twice2either :: Twice  a -> Either a a  -- implement these, too!
+              square2pair  :: Square a -> Pair   a a
+
+------ N.B. I'm using here the type synonym 
+               type Pair a b = (a,b)
+            to make the notation more uniform between Pair and Either.
+--}
+
+
+data M2 t a = M2 (Square (t ( Twice a)))
+
+
+-- aqui esta o que e necessario para fazer o Show funcionar
+-- a relevante e' que a ideia e' definir os tipos functor como instancias de Show1.
+-- depois tendo (Show1 t) e (Show a) ficamos automaticamente com (Show (t a)).
+-- os detalhes de como fazer o Show1 funciona nao interessam grande coisa.
+-- na verdade, nem os percebi bem, fiz isto adaptando alguns exemplos.
+-- o que interessa e que funciona e podemo-nos concentrar no que realmente interessa
+
+instance (Show1 Twice) where
+    liftShowsPrec sp _ d (In1 x) = showsUnaryWith sp "In1" d x
+    liftShowsPrec sp _ d (In2 x) = showsUnaryWith sp "In2" d x
+
+instance (Show1 Square') where
+    liftShowsPrec sp _ d (Pair' x y) = showsBinaryWith sp sp "Pair" d x y
+
+instance (Show1 Square) where
+    liftShowsPrec sp _ d (Pair (x,y)) = showsBinaryWith sp sp "Pair" d x y
+
+instance (Show1 t) => Show1 (M2 t) where
+    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2 t a -> ShowS
+    liftShowsPrec sp l d (M2 (Pair (x,y))) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
+      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
+            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
+
+instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+
+
+
+
+
+{-- tudo isto pode ser apagado agora
 
 -- data TTwice t a = TTwice(t(Twice a)) deriving
 
-data M2' t a =  M2' (Square( t a)) --deriving Show
+--data M2' t a =  M2' (Square(t a)) 
 
--- instance ((Show(t a))) => Show(M2 t a) where
-     -- show (M2 x) = "(M2 " ++ show (x) ++ ")"
+
+--instance ((Show(t a))) => Show(M2 t a) where
+--      show (M2 x) = "(M2 " ++ show (x) ++ ")"
 -- dificuldades a implementar o show
 -- erro:  Could not deduce (Show (t (Twice a))) arising from a use of `show'
 
+--}
+
 --Twice
 instance Functor Twice where
-     fmap f (First a) = First( f a)
-     fmap f (Second a) = Second( f a) 
+     fmap f (In1 a) = In1( f a)
+     fmap f (In2 a) = In2( f a) 
 
 instance Applicative Twice where
-     pure a = First a
-     First f <*> First a = First(f a)
-     Second f <*> Second a = Second(f a) 
-     Second f <*> First a = undefined
-     First f <*> Second a = undefined
+     pure a = In1 a
+     In1 f <*> In1 a = In1(f a)
+     In2 f <*> In2 a = In2(f a) 
+     In2 f <*> In1 a = undefined
+     In1 f <*> In2 a = undefined
      --duvida em como emparelhar elementos diferentes do tipo
-     -- Second f <*> First a = First(f a)
-     -- First f <*> Second a = Second(f a)
+     -- In2 f <*> In1 a = In1(f a)
+     -- In1 f <*> In2 a = In2(f a)
 
 instance Monad Twice where
      return = pure
@@ -66,13 +131,12 @@ instance Monad Square where
      (>>=) = undefined
 
 --M2
-data M2 t a = M2(Square (t ( Twice a)))
 
-instance (Show a) => Show (M2 [] a) where
-     show(M2 x) = "(M2 " ++ show (x) ++ ")"
+--instance (Show a) => Show (M2 [] a) where
+--     show(M2 x) = "(M2 " ++ show (x) ++ ")"
 
-instance (Show a) => Show (M2 Maybe a) where
-     show(M2 x) = "(M2 " ++ show (x) ++ ")"
+--instance (Show a) => Show (M2 Maybe a) where
+--     show(M2 x) = "(M2 " ++ show (x) ++ ")"
 
 instance (Functor t) => Functor(M2 t) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
@@ -96,8 +160,8 @@ instance (Monad t) => Monad (M2 t) where
 -- \\ -- \\ -- \\ -- \\ --
 --Examples
 
-a = M2 $ Pair(([First 1], [Second 2]))
-aux = M2 $ Pair(([First (+2)], [Second (+2)]))
+a = M2 $ Pair(([In1 1], [In2 2]))
+aux = M2 $ Pair(([In1 (+2)], [In2 (+2)]))
 plusTwoAp = aux <*> a
 -- (f <<= ) = f#
 -- x >>= f = f# x
