@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a968ebcd39821a2389cc9b4d2cd8019948d0819f4b06803a511cda9020bed861
+-- hash: 0ba749c15bb5b21b6aa7522ee59c99679c77f887e572f03f954e442c37547bf0
 
 name:           monadTransformer
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      Experiments.EitherSplit
       Lib
       Mtwo
   other-modules:
@@ -53,7 +54,6 @@ test-suite monadTransformer-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Experiments
       Paths_monadTransformer
   hs-source-dirs:
       test

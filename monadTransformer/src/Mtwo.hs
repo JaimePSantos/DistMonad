@@ -50,6 +50,8 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
                type Pair a b = (a,b)
             to make the notation more uniform between Pair and Either.
 --}
+-- (f <<= ) = f#
+-- x >>= f = f# x
 
 
 data M2 t a = M2 (Square (t ( Twice a)))
@@ -86,26 +88,9 @@ instance (Show1 t) => Show1 (M2' t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
-instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+--instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 
-
-
-
-
-{-- tudo isto pode ser apagado agora
-
--- data TTwice t a = TTwice(t(Twice a)) deriving
-
---data M2' t a =  M2' (Square(t a)) 
-
-
---instance ((Show(t a))) => Show(M2 t a) where
---      show (M2 x) = "(M2 " ++ show (x) ++ ")"
--- dificuldades a implementar o show
--- erro:  Could not deduce (Show (t (Twice a))) arising from a use of `show'
-
---}
 
 --Twice
 instance Functor Twice where
@@ -122,12 +107,16 @@ instance Applicative Twice where
      -- In2 f <*> In1 a = In1(f a)
      -- In1 f <*> In2 a = In2(f a)
 
-instance Monad Twice where
-     return = pure
-     (>>=) = undefined
+eitherT :: (a->c) -> (a->c) ->(Twice a -> c)
+eitherT f _ (In1 a) = f a
+eitherT _ g (In2 a) = g a
+
+twice2Either :: Twice a -> Either a a
+twice2Either( In1 a )= Left a
+twice2Either( In2 a) = Right a
+
 
 --Square
-
 instance Functor Square where
      fmap f (Pair(a,b) )= Pair(f a, f b)
 
@@ -138,6 +127,21 @@ instance Applicative Square where
 instance Monad Square where
      return = pure
      (>>=) = undefined
+
+splitS :: (c->a) -> (c->a) -> (c->Square a)
+splitS f g a = Pair(f a, g a)
+
+square2Pair ::Square a-> (a,a)
+square2Pair( Pair(a,b)) = (a,b)
+
+x = (Left 1) 
+y = (In1 1)
+f = (+1)
+g = (+2)
+
+--test = either f g x 
+--test1 = eitherT f g y
+--test1 = twice2Either.eitherT f g y
 
 --M2
 
@@ -167,10 +171,10 @@ instance (Monad t) => Monad (M2 t) where
      -- M2 x >>= M2 f a = M2 $ (fmap.fmap) f x 
 
 -- \\ -- \\ -- \\ -- \\ --
+
 --Examples
 
 a = M2 $ Pair(([In1 1], [In2 2]))
 aux = M2 $ Pair(([In1 (+2)], [In2 (+2)]))
 plusTwoAp = aux <*> a
--- (f <<= ) = f#
--- x >>= f = f# x
+

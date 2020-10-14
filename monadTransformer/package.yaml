@@ -35,7 +35,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - monadTransformer
-
+extra-include-dirs:
+  - /opt/foo/include
 tests:
   monadTransformer-test:
     main:                Spec.hs
