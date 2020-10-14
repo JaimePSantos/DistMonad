@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b9becdf3975323533aeaa6552451d0d8e88d83c6a953f09235f10c375561f458
+-- hash: a968ebcd39821a2389cc9b4d2cd8019948d0819f4b06803a511cda9020bed861
 
 name:           monadTransformer
 version:        0.1.0.0
@@ -53,6 +53,7 @@ test-suite monadTransformer-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Experiments
       Paths_monadTransformer
   hs-source-dirs:
       test
