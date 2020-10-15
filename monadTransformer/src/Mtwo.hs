@@ -39,9 +39,14 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
            We just need to make similar functions but with a = b, namely:
               eitherT :: (a -> c) -> (a -> c) -> (Twice a -> c)
               splitS  :: (c -> a) -> (c -> a) -> (c -> Square a)
-           such that they satisfy
-              either f g == twice2either . eitherT f g
-              split  f g == square2pair  . eitherT f g
+           such that they satisfy:
+              either  f g == eitherT f g . either2twice  -- isto era o que eu queria ter posto, desculpa
+              split  f g  == square2pair . splitT  f g
+
+              eitherT f g == either  f g . twice2either  -- mas tambem podia ter escrito assim
+                                                         -- orque twice2either e' iso, tem uma
+                                                         -- inversa either2twice. 
+              splitT f g  == pair2square . split f g     -- o mesmo para square2pair / pair2square
            for the obvious isomorphisms:
               twice2either :: Twice  a -> Either a a  -- implement these, too!
               square2pair  :: Square a -> Pair   a a
