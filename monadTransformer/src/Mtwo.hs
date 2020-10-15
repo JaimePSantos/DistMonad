@@ -88,7 +88,7 @@ instance (Show1 t) => Show1 (M2' t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
---instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 
 
@@ -115,6 +115,9 @@ twice2Either :: Twice a -> Either a a
 twice2Either( In1 a )= Left a
 twice2Either( In2 a) = Right a
 
+either2Twice :: Either a a -> Twice a
+either2Twice (Left a) = In1 a
+either2Twice (Right b) = In2 b
 
 --Square
 instance Functor Square where
@@ -134,26 +137,10 @@ splitS f g a = Pair(f a, g a)
 square2Pair ::Square a-> (a,a)
 square2Pair( Pair(a,b)) = (a,b)
 
-x = (Left 1) 
-y = (In1 1)
-f = (+1)
-g = (+2)
-
---test = either f g x 
---test1 = eitherT f g y
---test1 = twice2Either.eitherT f g y
 
 --M2
-
---instance (Show a) => Show (M2 [] a) where
---     show(M2 x) = "(M2 " ++ show (x) ++ ")"
-
---instance (Show a) => Show (M2 Maybe a) where
---     show(M2 x) = "(M2 " ++ show (x) ++ ")"
-
 instance (Functor t) => Functor(M2 t) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
-     -- fmap = undefined
      fmap f (M2 t) = M2 $ (fmap.fmap.fmap) f t
 
 instance (Monad t) => Applicative (M2 t) where
@@ -163,18 +150,45 @@ instance (Monad t) => Applicative (M2 t) where
      (<*>) = ap
      
 instance (Monad t) => Monad (M2 t) where
-     return :: a -> M2 t a
-     return = pure
+     -- return :: a -> M2 t a
+     -- return = splitS (t(In1).id) (t(In2).id)
      (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
      (>>=)= undefined
-     -- M2 x >>= f =(f =<< M2 x) 
-     -- M2 x >>= M2 f a = M2 $ (fmap.fmap) f x 
+
+{--
+-- Questoes --
+definiçao do eta = <T(Ki) . etaX> -> isto significa que tenho de fazer um split f g,
+onde f será o In1 "wrapped" na monad T composto com a identidade, e g igual para In2?
+No caso de T ser uma lista seria por exemplo: split ([In1].id?) ([In2].id?)
+Na tentativa de cima deverei subsituir (t(In1)) por pure? Tambem nao tenho a certeza da funçao id.
+--}
 
 -- \\ -- \\ -- \\ -- \\ --
 
 --Examples
 
-a = M2 $ Pair(([In1 1], [In2 2]))
-aux = M2 $ Pair(([In1 (+2)], [In2 (+2)]))
-plusTwoAp = aux <*> a
+-- a = M2 $ Pair(([In1 1], [In2 2]))
+--aux = M2 $ Pair(([In1 (+2)], [In2 (+2)]))
+--plusTwoAp = aux <*> a
+
+-- fExample :: Int->Int
+-- fExample= (+1)
+-- gExample:: Int-> Int
+-- gExample = (+2)
+aExample :: Twice Int
+aExample = In1 $ 1
+-- bExample ::Either Int Int
+-- bExample = Right 1
+
+-- eitherTTest :: (Int->Int) -> (Int->Int) ->(Twice Int -> Int)
+-- eitherTTest f g a = either f g (twice2Either(a))
+
+-- eitherTest :: (Int->Int) -> (Int->Int) ->(Either Int Int -> Int)
+-- eitherTest f g = eitherT f g . either2Twice
+
+-- eitherEq :: (Int->Int) -> (Int->Int) -> (Either Int Int-> Bool)
+-- eitherEq f g x = (either f g x) ==( eitherTest f g x)
+
+-- eitherTEq :: (Int->Int) -> (Int->Int) -> (Twice Int-> Bool)
+-- eitherTEq f g x = eitherT f g x == eitherTTest f g x
 
