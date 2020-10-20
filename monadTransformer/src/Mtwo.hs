@@ -156,16 +156,24 @@ instance (Monad t) => Applicative (M2 t) where
      
 instance (Monad t) => Monad (M2 t) where
      -- return :: a -> M2 t a
-     -- return = splitS (t(In1).id) (t(In2).id)
+     -- return a =M2.(splitS (t(In1)) (t(In2)) a)
+     return = pure
      (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
      (>>=)= undefined
+     -- f =<< = Square(join.t(either f g),join.t(either f g))
 
 {--
--- Questoes --
+-- Questoes Return--
 definiçao do eta = <T(Ki) . etaX> -> isto significa que tenho de fazer um split f g,
 onde f será o In1 "wrapped" na monad T composto com a identidade, e g igual para In2?
 No caso de T ser uma lista seria por exemplo: split ([In1].id?) ([In2].id?)
 Na tentativa de cima deverei subsituir (t(In1)) por pure? Tambem nao tenho a certeza da funçao id.
+
+-- Questoes Extension--
+definiçao: f# = (mu_{T(n.Y)} . t ([f_i]_i<=n))^n
+Significa que esta definiçao é constituida por um par para n =2, composto pelo join 
+T(n.Y) (nao tenho a certeza como definir isto) composto com o either de f1 e f2 
+(como decomponho o f da definiçao em 2 funçoes?).
 --}
 
 -- \\ -- \\ -- \\ -- \\ --
@@ -173,6 +181,7 @@ Na tentativa de cima deverei subsituir (t(In1)) por pure? Tambem nao tenho a cer
 --Examples
 
 -- a = M2 $ Pair(([In1 1], [In2 2]))
+
 --aux = M2 $ Pair(([In1 (+2)], [In2 (+2)]))
 --plusTwoAp = aux <*> a
 
@@ -180,8 +189,8 @@ Na tentativa de cima deverei subsituir (t(In1)) por pure? Tambem nao tenho a cer
 -- fExample= (+1)
 -- gExample:: Int-> Int
 -- gExample = (+2)
-aExample :: Twice Int
-aExample = In1 $ 1
+-- aExample :: Twice Int
+-- aExample = In1 $ 1
 -- bExample ::Either Int Int
 -- bExample = Right 1
 
