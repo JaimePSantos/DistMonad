@@ -4,8 +4,7 @@
 {-# LANGUAGE DeriveAnyClass #-}
 
 module Mtwo where
-
-import Control.Monad 
+import Control.Monad(join,ap)
 import Control.Applicative
 import System.IO
 import Data.Tuple
@@ -23,7 +22,7 @@ import Data.Functor.Classes
 -- O M2 é que ainda ainda nao bem. A ideia á usares o Twice (i.e. EitherAux) e o Square (i.e. PairAux) para definir o M2.
 
 --Helper structures
-data Twice a  = In1 a | In2 a       -- this is the functor T(A) = A + A with injections In1 and In2
+data Twice a  = In1 a | In2 a      -- this is the functor T(A) = A + A with injections In1 and In2
 data Square a = Pair(a,a)     
 data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A with projections pi1 and pi2
 
@@ -60,6 +59,7 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
 
 
 data M2 t a = M2 (Square (t ( Twice a)))
+
 data M2' t a = M2' (Square' (t ( Twice a)))
 
 
@@ -93,7 +93,7 @@ instance (Show1 t) => Show1 (M2' t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
-instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+-- instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 
 
@@ -142,7 +142,17 @@ splitS f g a = Pair(f a, g a)
 square2Pair ::Square a-> (a,a)
 square2Pair( Pair(a,b)) = (a,b)
 
+join1 ::(Monad m) => m(m a) -> m a
+join1 x = x >>= id
 
+first1 :: Square a -> a
+first1 (Pair(a,b)) = a
+
+second1 :: Square a -> a
+second1 (Pair(a,b)) = b
+
+-- unWrap :: (Monad t) => M2 t a -> Square t a
+-- unWrap  = 
 --M2
 instance (Functor t) => Functor(M2 t) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
@@ -153,13 +163,22 @@ instance (Monad t) => Applicative (M2 t) where
      pure = return
      -- M2 f <*> M2 t = M2 $ (<*>) <$> f <*> t
      (<*>) = ap
-     
+
+-- sharp ::(Monad t)=> (a->M2 t b)->(M2 t a -> M2 t b)
+-- sharp f = M2. fmap(join1.fmap(eitherT(first1.f) (second1.f)))
+{--
+     Still some issues defining the unwrap.
+     Should it be from M2 t a -> Square a, or M2 t a -> Square t a and
+     redefine the first1 and second1 ?
+--}
+
 instance (Monad t) => Monad (M2 t) where
-     -- return :: a -> M2 t a
-     -- return a =M2.(splitS (t(In1)) (t(In2)) a)
-     return = pure
-     (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
-     (>>=)= undefined
+     return :: a -> M2 t a
+     return = M2. splitS (fmap(In1).return) (fmap(In2).return) 
+     -- return  =(splitS (fmap()
+     -- return = pure
+     -- (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
+     -- (>>=)= undefined
      -- f =<< = Square(join.t(either f g),join.t(either f g))
 
 {--
