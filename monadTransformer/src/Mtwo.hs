@@ -58,9 +58,9 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
 -- x >>= f = f# x
 
 
-data M2 t a = M2 (Square (t ( Twice a)))
+data M2 t a  = M2 {unM2 :: Square  (t (Twice a)) }
 
-data M2' t a = M2' (Square' (t ( Twice a)))
+data M2' t a = M2'{unM2':: Square' (t (Twice a)) }
 
 
 
