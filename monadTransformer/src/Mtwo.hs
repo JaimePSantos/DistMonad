@@ -4,12 +4,15 @@
 {-# LANGUAGE DeriveAnyClass #-}
 
 module Mtwo where
+
 import Control.Monad(join,ap)
 import Control.Applicative
 import System.IO
 import Data.Tuple
 import Control.Applicative
 import Data.Functor.Classes
+import qualified Numeric.Probability.Distribution as Dist
+import Numeric.Probability.Distribution ((??), (?=<<), )
 
 -- sim, estao certos agora o either e o Pair
 -- nao vale a pena e acrescentar construtures so como wrappers, em especial o do Either.
@@ -25,6 +28,9 @@ import Data.Functor.Classes
 data Twice a  = In1 a | In2 a      -- this is the functor T(A) = A + A with injections In1 and In2
 data Square a = Pair(a,a)     
 data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A with projections pi1 and pi2
+data Vec c a = Vec {unVec::[(c,a)]} deriving (Show)
+
+
 
 
 {--
@@ -59,6 +65,7 @@ data Square' a =Pair' {pi1 :: a, pi2 :: a}  -- this is the functor S(A) = A x A 
 
 
 data M2 t a  = M2 {unM2 :: Square  (t (Twice a)) }
+-- data M2 t a = M2 (Square(t(Twice a)))
 
 data M2' t a = M2'{unM2':: Square' (t (Twice a)) }
 
@@ -151,8 +158,6 @@ first1 (Pair(a,b)) = a
 second1 :: Square a -> a
 second1 (Pair(a,b)) = b
 
--- unWrap :: (Monad t) => M2 t a -> Square t a
--- unWrap  = 
 --M2
 instance (Functor t) => Functor(M2 t) where
      fmap :: (a -> b) -> (M2 t a -> M2 t b)
@@ -164,17 +169,17 @@ instance (Monad t) => Applicative (M2 t) where
      -- M2 f <*> M2 t = M2 $ (<*>) <$> f <*> t
      (<*>) = ap
 
--- sharp ::(Monad t)=> (a->M2 t b)->(M2 t a -> M2 t b)
--- sharp f = M2. fmap(join1.fmap(eitherT(first1.f) (second1.f)))
-{--
-     Still some issues defining the unwrap.
-     Should it be from M2 t a -> Square a, or M2 t a -> Square t a and
-     redefine the first1 and second1 ?
---}
+sharp ::(Monad t)=> (a->M2 t b)->(M2 t a -> M2 t b)
+sharp f = M2. fmap(join1.fmap(eitherT(first1.f') (second1.f'))).unM2 where
+     f' = unM2.f
+-- x >>= f = f# x
+distrib k = Dist.uniform [k+1,k-1]
+
 
 instance (Monad t) => Monad (M2 t) where
      return :: a -> M2 t a
-     return = M2. splitS (fmap(In1).return) (fmap(In2).return) 
+     return = M2. splitS (fmap(In1).return) (fmap(In2).return)
+     (>>=) x f  = sharp f x
      -- return  =(splitS (fmap()
      -- return = pure
      -- (>>=) :: M2 t a -> (a -> M2 t b) -> M2 t b
