@@ -15,10 +15,10 @@ vecZero = Vec []
 
 vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
-vecAdd(a,x) (Vec xs) = Vec(add' xs) where
-    add' [] = [(a,x)]
-    add' ((b,y):ys)   | a == b = (b,x+y) : ys
-                      | otherwise = add' ys
+vecAdd(a,x) (Vec xs) = Vec(add' (a,x) xs) where
+    add'(a,x) [] = [(a,x)]
+    add'(a,x) ((b,y):ys)   | a == b = (b,x+y) : ys
+                           | otherwise =(b,y): add' (a,x) ys
 
 vecMult :: (Eq x, Num x) => x -> Vec x a -> Vec x a
 vecMult scalar (Vec xs) | scalar == 0 = Vec[]
@@ -40,7 +40,9 @@ instance Num n => Monad(Vec n) where
     (Vec xs) >>= f = Vec[(b,i*j) | (a,i)<-xs, (b,j)<- unVec(f a)]
 
 
-func :: (Fractional x, Num a) => a -> Vec x a
-func x= Vec[(x+1,(0.2))]
-a :: Vec Double Int
-a = return 0 :: Vec Double Int
+vecFunc :: (Fractional x, Num a) => a -> Vec x a
+vecFunc x= Vec[(x+1,(0.2))]
+vec1 :: Vec Double Int
+vec1 = return 0 :: Vec Double Int
+vec2 = return 1 :: Vec Double Int
+-- b = vecConcat a 
