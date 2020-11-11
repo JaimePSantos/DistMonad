@@ -1,8 +1,8 @@
 /src/Experiments
 /src/oldfuncs.hs
-/src/stack.yaml
-/src/stack.yaml.lock
-/src/quantumWalk.cabal
-/src/Setup.hs
+stack.yaml
+stack.yaml.lock
+quantumWalk.cabal
+Setup.hs
 .stack-work/
 *~
