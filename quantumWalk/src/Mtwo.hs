@@ -53,7 +53,7 @@ instance (Show1 t) => Show1 (M2' t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
-instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+-- instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 --Twice
 instance Functor Twice where
