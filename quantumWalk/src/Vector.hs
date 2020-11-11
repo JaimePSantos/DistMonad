@@ -13,14 +13,19 @@ data Vec x a = Vec{unVec::[(a,x)]} deriving Show
 vecZero :: Vec x a
 vecZero = Vec []
 
-add :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
+vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
-add(a,x) (Vec xs) = Vec(add' xs) where
+vecAdd(a,x) (Vec xs) = Vec(add' xs) where
     add' [] = [(a,x)]
     add' ((b,y):ys)   | a == b = (b,x+y) : ys
                       | otherwise = add' ys
 
+vecMult :: (Eq x, Num x) => x -> Vec x a -> Vec x a
+vecMult scalar (Vec xs) | scalar == 0 = Vec[]
+                        | otherwise = Vec([(a,scalar*i)|(a,i)<-xs]) where
 
+vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a 
+vecConcat (Vec xs)(v) = foldr vecAdd v xs
 
 instance Num n => Functor(Vec n) where
     -- fmap f (Vec xs) = Vec[(a,i*j) | (a,i)<-xs, j<- (f a)] 
