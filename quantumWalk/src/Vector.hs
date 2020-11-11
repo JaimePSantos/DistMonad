@@ -22,7 +22,7 @@ vecAdd(a,x) (Vec xs) = Vec(add' xs) where
 
 vecMult :: (Eq x, Num x) => x -> Vec x a -> Vec x a
 vecMult scalar (Vec xs) | scalar == 0 = Vec[]
-                        | otherwise = Vec([(a,scalar*i)|(a,i)<-xs]) where
+                        | otherwise = Vec([(a,scalar*i)|(a,i)<-xs]) 
 
 vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a 
 vecConcat (Vec xs)(v) = foldr vecAdd v xs
