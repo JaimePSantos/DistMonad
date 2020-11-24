@@ -15,6 +15,7 @@ vecZero = Vec []
 
 vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
+--Tratar do caso de x+y = 0 para retirar la de dentro
 vecAdd(a,x) (Vec xs) = Vec(add' (a,x) xs) where
     add'(a,x) [] = [(a,x)]
     add'(a,x) ((b,y):ys)   | a == b = (b,x+y) : ys
@@ -39,10 +40,15 @@ instance Num n => Monad(Vec n) where
     return x = Vec[(x,1)]
     (Vec xs) >>= f = Vec[(b,i*j) | (a,i)<-xs, (b,j)<- unVec(f a)]
 
-
+-- Fazer uma funçao de comparaçao que compara os elementos de 1 vetor com todos os do outro.
 vecFunc :: (Fractional x, Num a) => a -> Vec x a
 vecFunc x= Vec[(x+1,(0.2))]
 vec1 :: Vec Double Int
 vec1 = return 0 :: Vec Double Int
 vec2 = return 1 :: Vec Double Int
 -- b = vecConcat a 
+
+-- M2 vec sobre os positivos reais para simular a probabilistica
+-- M2 vec sobre os complexos para simular a quantica
+-- Fazer funçao que retire as probabilidades das amplitudes.
+-- Funcao que receber n e faz n aplicacoes do bind ao vetor dentro de m2 ?

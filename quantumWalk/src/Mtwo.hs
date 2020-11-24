@@ -124,5 +124,7 @@ instance (Monad t) => Monad (M2 t) where
 f a= M2(Pair ([In1 (a-1),In2 (a+1)],[In1(a-1) ,In2 (a+1)]))
 b = return 0 :: M2 [] Int
 
+--fazer exemplos M2 e vec.
+--Pensar como fazer o Mn.
 
 
