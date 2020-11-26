@@ -7,8 +7,16 @@ module Vector where
 
 import Control.Applicative (Applicative(..))
 import Control.Monad       (liftM, ap)
+import System.IO
+import Data.Tuple
+import Control.Applicative
+import Data.Functor.Classes
 
 data Vec x a = Vec{unVec::[(a,x)]} deriving Show
+data Vec1 x a = Vec1{unVec1::(a,x)}
+
+--instance (Show1 a) => Show1 (Vec1 a) where
+--	liftShowsPrec sp _ d (Vec1 (a,x)) = showsBinaryWith sp sp "Vec" d a x
 
 vecZero :: Vec x a
 vecZero = Vec []

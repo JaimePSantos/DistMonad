@@ -1,0 +1,100 @@
+[200~:q
+stack ghci
+bla = Dist.uniform [1,2]
+:r
+:q
+it >>= s
+it >>= s
+it >>= s
+it >>= s
+return 0 :: [] Int
+s k = [k-1,k+1]
+return 0 :: [] Int
+:r
+return 0 :: [] Int
+return 0 :: M2 [] Int
+s k = [k-1,k+1]
+it >>= f
+it >>= f
+return 0 :: M2 [] Int
+return 1 :: M2 [] Int
+return 1
+a = M2(Pair ([In1 1],[In2 1]))
+a >>= f
+f a= M2(Pair ([In1 (a-1),In2 (a+1)],[In1(a-1) ,In2 (a+1)]))
+a = M2(Pair ([In1 1],[In2 1]))
+a >>= f
+:t a
+:t f
+f a= M2(Pair ([In1 (a+1)],[In2 (a+2)]))
+a >>= f
+xa >>= f
+x >> = f
+fmap.f >>= a
+f = M2(Pair ([In1 (+1)],[In2 (+2)]))
+f
+f = M2(Pair ([In1 (+1)::Int],[In2 (+2)::Int]))
+f >>= a
+f >>= x
+f = M2(Pair ([In1 (+1)],[In2 (+2)]))
+a
+a = M2(Pair ([In1 1],[In2 1]))
+a
+:r
+a
+a = M2(Pair ([In1 1],[In2 1]))
+a = M2(Square ([In1 1],[In2 1]))
+a = M2(Square ([In1 1],[
+:r
+:R
+:r
+:r
+:r
+:t sharp
+:r
+:t sharp
+:q
+foldr const 0 [0,2,1]
+foldr const 0 [2,1]
+foldr const 0 [1,2]
+foldr const 0 [1]
+foldr const 0 1
+const 1 2
+const 0 1
+:q
+Çq
+:q
+M2(Square(Just(First 1), Just(First 2)))
+M2(Square(Just(First 1), Just(First 2))
+:q
+:q
+:q
+flipTwice
+:r
+:r
+flipOnce
+:r
+:r
+:r
+:r
+:r
+flipOnce
+coin
+:l Coin
+:q
+boys 1 
+boys 1 2
+nBoys 2 1 2
+numBoys 2 1
+:r
+numBoys 2 1
+boys 3 family2
+boys 3
+boys family2 3
+:r
+:r
+boys family2 3
+countBoys [Boy,Boy,Girl]
+countBoys family2
+family2
+:r

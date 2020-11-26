@@ -13,10 +13,11 @@ import Control.Applicative
 import Data.Functor.Classes
 import qualified Numeric.Probability.Distribution as Dist
 import Numeric.Probability.Distribution ((??), (?=<<), )
+import Vector
 
 --Helper structures
-data Twice a  = In1 a | In2 a      -- this is the functor T(A) = A + A with injections In1 and In2
-data Square a = Pair(a,a)     
+data Twice a  = In1 a | In2 a deriving Show      -- this is the functor T(A) = A + A with injections In1 and In2
+data Square a = Pair(a,a) deriving Show 
 data Square' a =Pair' {pi1 :: a, pi2 :: a}  --this is the functor S(A) = A x A with projections pi1 and pi2
 
 
@@ -53,7 +54,10 @@ instance (Show1 t) => Show1 (M2' t) where
       where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
             lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
--- instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+--instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
+
+instance (Show a, Show b) => Show(M2 (Vec a) b) where
+	show(M2 x) = "(M2" ++ show(x) ++ ")" 
 
 --Twice
 instance Functor Twice where
@@ -121,10 +125,15 @@ instance (Monad t) => Monad (M2 t) where
      return = M2. splitS (fmap(In1).return) (fmap(In2).return)
      (>>=) x f  = sharp f x
 
-f a= M2(Pair ([In1 (a-1),In2 (a+1)],[In1(a-1) ,In2 (a+1)]))
-b = return 0 :: M2 [] Int
+--Examples
+examplefunc a= M2(Pair ([In1 (a-1),In2 (a+1)],[In1(a-1) ,In2 (a+1)]))
+exampleWalk = return 0 :: M2 [] Int
 
 --fazer exemplos M2 e vec.
 --Pensar como fazer o Mn.
 
+vector1 :: Vec Double Int
+vector1 = return 0 :: Vec Double Int
+vector2 = return 1 :: Vec Double Int
 
+mTwoVec = return 0 :: M2 (Vec Double) (Int)
