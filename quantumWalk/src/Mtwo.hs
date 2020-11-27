@@ -57,7 +57,7 @@ instance (Show1 t) => Show1 (M2' t) where
 --instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 instance (Show a, Show b) => Show(M2 (Vec a) b) where
-	show(M2 x) = "(M2" ++ show(x) ++ ")" 
+     show(M2 x) = "(M2" ++ show(x) ++ ")" 
 
 --Twice
 instance Functor Twice where
@@ -136,4 +136,3 @@ vector1 :: Vec Double Int
 vector1 = return 0 :: Vec Double Int
 vector2 = return 1 :: Vec Double Int
 
-mTwoVec = return 0 :: M2 (Vec Double) (Int)

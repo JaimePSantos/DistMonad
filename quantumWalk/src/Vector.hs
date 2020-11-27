@@ -17,7 +17,6 @@ data Vec1 x a = Vec1{unVec1::(a,x)}
 
 --instance (Show1 a) => Show1 (Vec1 a) where
 --	liftShowsPrec sp _ d (Vec1 (a,x)) = showsBinaryWith sp sp "Vec" d a x
-
 vecZero :: Vec x a
 vecZero = Vec []
 
