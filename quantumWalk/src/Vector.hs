@@ -12,7 +12,7 @@ import Data.Tuple
 import Control.Applicative
 import Data.Functor.Classes
 
-data Vec x a = Vec{unVec::[(a,x)]} deriving Show
+data Vec x a = Vec{unVec::[(a,x)]}-- deriving Show
 data Vec1 x a = Vec1{unVec1::(a,x)}
 
 --instance (Show1 a) => Show1 (Vec1 a) where
@@ -46,6 +46,9 @@ instance Num n => Applicative(Vec n) where
 instance Num n => Monad(Vec n) where
     return x = Vec[(x,1)]
     (Vec xs) >>= f = Vec[(b,i*j) | (a,i)<-xs, (b,j)<- unVec(f a)]
+
+instance (Show a, Show b) => Show(Vec a b) where
+    show(Vec x) = "Vec"++show(x)
 
 -- Fazer uma funçao de comparaçao que compara os elementos de 1 vetor com todos os do outro.
 vecFunc :: (Fractional x, Num a) => a -> Vec x a

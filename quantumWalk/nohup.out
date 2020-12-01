@@ -7,3 +7,15 @@
 
 ###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
 
+Gdk-Message: 13:47:47.793: /usr/lib/firefox/firefox: Fatal IO error 11 (Resource temporarily unavailable) on X server :10.0.
+
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x3A0026,name=PContent::Msg_ThemeChanged) Channel error: cannot send/recv
+
+Gdk-Message: 13:47:47.945: firefox: Fatal IO error 0 (Success) on X server :10.0.
+
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.

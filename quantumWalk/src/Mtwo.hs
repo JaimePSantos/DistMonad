@@ -32,32 +32,32 @@ data M2' t a = M2'{unM2':: Square' (t (Twice a)) }
 -- na verdade, nem os percebi bem, fiz isto adaptando alguns exemplos.
 -- o que interessa e que funciona e podemo-nos concentrar no que realmente interessa
 
-instance (Show1 Twice) where
-    liftShowsPrec sp _ d (In1 x) = showsUnaryWith sp "In1" d x
-    liftShowsPrec sp _ d (In2 x) = showsUnaryWith sp "In2" d x
-
-instance (Show1 Square') where
-    liftShowsPrec sp _ d (Pair' x y) = showsBinaryWith sp sp "Pair" d x y
-
-instance (Show1 Square) where
-    liftShowsPrec sp _ d (Pair (x,y)) = showsBinaryWith sp sp "Pair" d x y
-
-instance (Show1 t) => Show1 (M2 t) where
-    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2 t a -> ShowS
-    liftShowsPrec sp l d (M2 (Pair (x,y))) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
-      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
-            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
-
-instance (Show1 t) => Show1 (M2' t) where
-    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2' t a -> ShowS
-    liftShowsPrec sp l d (M2' (Pair' x y)) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
-      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
-            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
+--instance (Show1 Twice) where
+--    liftShowsPrec sp _ d (In1 x) = showsUnaryWith sp "In1" d x
+--    liftShowsPrec sp _ d (In2 x) = showsUnaryWith sp "In2" d x
+--
+--instance (Show1 Square') where
+--    liftShowsPrec sp _ d (Pair' x y) = showsBinaryWith sp sp "Pair" d x y
+--
+--instance (Show1 Square) where
+--    liftShowsPrec sp _ d (Pair (x,y)) = showsBinaryWith sp sp "Pair" d x y
+--
+--instance (Show1 t) => Show1 (M2 t) where
+--    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2 t a -> ShowS
+--    liftShowsPrec sp l d (M2 (Pair (x,y))) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
+--      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
+--            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
+--
+--instance (Show1 t) => Show1 (M2' t) where
+--    liftShowsPrec :: (Int -> a -> ShowS) -> ([a] -> ShowS) -> Int -> M2' t a -> ShowS
+--    liftShowsPrec sp l d (M2' (Pair' x y)) = showsBinaryWith (lft sp l) (lft sp l) "Pair" d x y 
+--      where lft :: (Show1 t) => (Int -> a -> ShowS) ->  ([a] -> ShowS) -> (Int -> t (Twice a)  -> ShowS)
+--            lft sp l d =  liftShowsPrec (liftShowsPrec sp l) (liftShowList sp l) d 
 
 --instance (Show1 f, Show a) => Show (f a) where showsPrec = showsPrec1
 
 instance (Show a, Show b) => Show(M2 (Vec a) b) where
-     show(M2 x) = "(M2" ++ show(x) ++ ")" 
+     show(M2 x) = "M2 ( " ++ show(x) ++ ")" 
 
 --Twice
 instance Functor Twice where
