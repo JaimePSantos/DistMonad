@@ -14,7 +14,7 @@ import Data.Complex
 sqrRoot = 1/sqrt(2) :: Complex Float
 --Duvidas: O tipo de mTwoVec esta correto? Posso usar isto como condicao inicial? Penso que nao por causa da duvida anterior.
 mTwoVec = return 0 :: M2 (Vec (Complex Float)) (Int)
---Duvidas: Penso que a moeda esta correta, rever no entanto.
+--Duvidas: Penso que a moeda esta quase correta. Penso que o sinal negativo na amplitude tera que ser num estado diferente, porque o M2 esta a resultar no sinal negativo no estado errado.
 hadamardCoin a = M2 $ Pair ( Vec[(In1( a+1), sqrRoot),(In2( a-1),sqrRoot)], Vec[(In1 (a+1), -sqrRoot),(In2 (a-1),sqrRoot)])
 
 --initCond = M2(  
