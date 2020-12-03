@@ -35,6 +35,12 @@ vecMult scalar (Vec xs) | scalar == 0 = Vec[]
 vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a 
 vecConcat (Vec xs)(v) = foldr vecAdd v xs
 
+vecTrunc :: (Eq a, Num x) => Vec x a -> Vec x a
+vecTrunc (Vec((x,y):xs)) = Vec(trunc' (x,y) xs) where
+    trunc'(a,x) [] = [(a,x)]
+    trunc'(a,x) ((b,y):ys)   | a == b = (a,x+y) : trunc'(a,x) ys
+                             | otherwise = trunc'(b,y) ys
+
 instance Num n => Functor(Vec n) where
     -- fmap f (Vec xs) = Vec[(a,i*j) | (a,i)<-xs, j<- (f a)] 
     fmap = liftM
@@ -56,6 +62,10 @@ vecFunc x= Vec[(x+1,(0.2))]
 vec1 :: Vec Double Int
 vec1 = return 0 :: Vec Double Int
 vec2 = return 1 :: Vec Double Int
+vec3 = return 2 :: Vec Double Int
+vec4 = Vec[(1,0.5),(1,0.5),(2,0.3),(2,0.1),(1,0.1),(2,0.7),(3,0.5)]
+vecConc1 = vecConcat vec1 vec2
+
 -- b = vecConcat a 
 
 -- M2 vec sobre os positivos reais para simular a probabilistica

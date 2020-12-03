@@ -17,4 +17,6 @@ mTwoVec = return 0 :: M2 (Vec (Complex Float)) (Int)
 --Duvidas: Penso que a moeda esta quase correta. Penso que o sinal negativo na amplitude tera que ser num estado diferente, porque o M2 esta a resultar no sinal negativo no estado errado.
 hadamardCoin a = M2 $ Pair ( Vec[(In1( a+1), sqrRoot),(In2( a-1),sqrRoot)], Vec[(In1 (a+1), -sqrRoot),(In2 (a-1),sqrRoot)])
 
+quantumWalk1 = mTwoVec >>= hadamardCoin
+--concatWalk = fmap.fmap $ 
 --initCond = M2(  
