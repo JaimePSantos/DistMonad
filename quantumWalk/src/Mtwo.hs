@@ -11,8 +11,8 @@ import System.IO
 import Data.Tuple
 import Control.Applicative
 import Data.Functor.Classes
-import qualified Numeric.Probability.Distribution as Dist
-import Numeric.Probability.Distribution ((??), (?=<<), )
+--mport qualified Numeric.Probability.Distribution as Dist
+--import Numeric.Probability.Distribution ((??), (?=<<), )
 import Vector
 
 --Helper structures
