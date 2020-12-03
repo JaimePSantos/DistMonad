@@ -38,8 +38,8 @@ vecConcat (Vec xs)(v) = foldr vecAdd v xs
 vecTrunc :: (Eq a, Num x) => Vec x a -> Vec x a
 vecTrunc (Vec((x,y):xs)) = Vec(trunc' (x,y) xs) where
     trunc'(a,x) [] = [(a,x)]
-    trunc'(a,x) ((b,y):ys)   | a == b = (a,x+y) : trunc'(a,x) ys
-                             | otherwise = trunc'(b,y) ys
+    trunc'(a,x) ((b,y):ys) | a == b = (a,x+y) : trunc'(a,x) ys
+                           | otherwise = trunc'(b,y) ys
 
 instance Num n => Functor(Vec n) where
     -- fmap f (Vec xs) = Vec[(a,i*j) | (a,i)<-xs, j<- (f a)] 
