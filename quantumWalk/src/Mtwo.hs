@@ -11,8 +11,8 @@ import System.IO
 import Data.Tuple
 import Control.Applicative
 import Data.Functor.Classes
-import qualified Numeric.Probability.Distribution as Dist
-import Numeric.Probability.Distribution ((??), (?=<<), )
+--import qualified Numeric.Probability.Distribution as Dist
+--import Numeric.Probability.Distribution ((??), (?=<<), )
 import Vector
 
 --Helper structures
@@ -117,7 +117,7 @@ sharp ::(Monad t)=> (a->M2 t b)->(M2 t a -> M2 t b)
 sharp f = M2. fmap(join1.fmap(eitherT(first1.f') (second1.f'))).unM2 where
      f' = unM2.f
 
-distrib k = Dist.uniform [k+1,k-1]
+--distrib k = Dist.uniform [k+1,k-1]
 
 
 instance (Monad t) => Monad (M2 t) where
