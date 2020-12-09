@@ -14,9 +14,14 @@ import Data.Complex
 sqrRoot = 1/sqrt(2) :: Complex Float
 --Duvidas: O tipo de mTwoVec esta correto? Posso usar isto como condicao inicial? Penso que nao por causa da duvida anterior.
 mTwoVec = return 0 :: M2 (Vec (Complex Float)) (Int)
---Duvidas: Penso que a moeda esta quase correta. Penso que o sinal negativo na amplitude tera que ser num estado diferente, porque o M2 esta a resultar no sinal negativo no estado errado.
-hadamardCoin a = M2 $ Pair ( Vec[(In1( a+1), sqrRoot),(In2( a-1),sqrRoot)], Vec[(In1 (a+1), -sqrRoot),(In2 (a-1),sqrRoot)])
+--mTwoVec1 = M2 $ Pair ( Vec[(In1 0, 1.0)], Vec [])
 
-quantumWalk1 = mTwoVec >>= hadamardCoin
+--Duvidas: Penso que a moeda esta quase correta. Penso que o sinal negativo na amplitude tera que ser num estado diferente, porque o M2 esta a resultar no sinal negativo no estado errado.
+hadamardCoin a = M2 $ Pair ( Vec[(In1( a-1), sqrRoot),(In2( a+1),sqrRoot)], Vec[(In1 (a-1), sqrRoot),(In2 (a+1),-sqrRoot)])
+
+quantumWalkN :: (Num b) => Int -> M2( Vec( Complex Float)) b -> M2( Vec( Complex Float)) b
+quantumWalkN (0) state = state
+quantumWalkN n state = quantumWalkN (n-1) (state >>= hadamardCoin)
+ 
 --concatWalk = fmap.fmap $ 
 --initCond = M2(  
