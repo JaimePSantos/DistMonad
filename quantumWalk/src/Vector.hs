@@ -15,14 +15,12 @@ import Data.Functor.Classes
 data Vec x a = Vec{unVec::[(a,x)]}-- deriving Show
 data Vec1 x a = Vec1{unVec1::(a,x)}
 
---instance (Show1 a) => Show1 (Vec1 a) where
---	liftShowsPrec sp _ d (Vec1 (a,x)) = showsBinaryWith sp sp "Vec" d a x
 vecZero :: Vec x a
 vecZero = Vec []
 
 vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
---Tratar do caso de x+y = 0 para retirar la de dentro
+--TODO: Tratar do caso de x+y = 0 para retirar la de dentro
 vecAdd(a,x) (Vec xs) = Vec(add' (a,x) xs) where
     add'(a,x) [] = [(a,x)]
     add'(a,x) ((b,y):ys)   | a == b = (b,x+y) : ys
@@ -35,14 +33,26 @@ vecMult scalar (Vec xs) | scalar == 0 = Vec[]
 vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a 
 vecConcat (Vec xs)(v) = foldr vecAdd v xs
 
+--TODO: Alterar esta funcao para truncar os vetores direitos. 
 vecTrunc :: (Eq a, Num x) => Vec x a -> Vec x a
 vecTrunc (Vec((x,y):xs)) = Vec(trunc' (x,y) xs) where
     trunc'(a,x) [] = [(a,x)]
     trunc'(a,x) ((b,y):ys) | a == b = (a,x+y) : trunc'(a,x) ys
                            | otherwise = trunc'(b,y) ys
 
+vecProb ::Num a => Vec a b -> Vec a b
+vecProb (Vec[]) = Vec[] 
+vecProb (Vec l) = Vec( vecProb' l) where
+    vecProb' [] = []
+    vecProb'((j,k):ks) = (j,abs(k)^2) : vecProb' ks 
+
+vecDistUniform :: (Fractional a,Eq b,Num b) => a -> b -> Vec a a 
+vecDistUniform a b = Vec((buildVec a b)) where
+    buildVec  x 0 = [(x,1)]
+    buildVec x y = (x,1) : buildVec (x+1) (y-1)
+
+vecDistUniform1 l = Vec [(x,1 `div` length(l))  | x<-l]
 instance Num n => Functor(Vec n) where
-    -- fmap f (Vec xs) = Vec[(a,i*j) | (a,i)<-xs, j<- (f a)] 
     fmap = liftM
 
 instance Num n => Applicative(Vec n) where
@@ -56,7 +66,6 @@ instance Num n => Monad(Vec n) where
 instance (Show a, Show b) => Show(Vec a b) where
     show(Vec x) = "Vec"++show(x)
 
--- Fazer uma funçao de comparaçao que compara os elementos de 1 vetor com todos os do outro.
 vecFunc :: (Fractional x, Num a) => a -> Vec x a
 vecFunc x= Vec[(x+1,(0.2))]
 vec1 :: Vec Double Int
@@ -64,11 +73,7 @@ vec1 = return 0 :: Vec Double Int
 vec2 = return 1 :: Vec Double Int
 vec3 = return 2 :: Vec Double Int
 vec4 = Vec[(1,0.5),(1,0.5),(2,0.3),(2,0.1),(1,0.1),(2,0.7),(3,0.5)]
+vec5 = Vec[(1,1/sqrt(2)),(1,1/sqrt(2))]
+vec6 = return 0 :: Vec Rational Int
 vecConc1 = vecConcat vec1 vec2
 
--- b = vecConcat a 
-
--- M2 vec sobre os positivos reais para simular a probabilistica
--- M2 vec sobre os complexos para simular a quantica
--- Fazer funçao que retire as probabilidades das amplitudes.
--- Funcao que receber n e faz n aplicacoes do bind ao vetor dentro de m2 ?
