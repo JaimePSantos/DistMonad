@@ -11,6 +11,8 @@ import System.IO
 import Data.Tuple
 import Control.Applicative
 import Data.Functor.Classes
+import Data.List
+import Data.Function
 
 data Vec x a = Vec{unVec::[(a,x)]}-- deriving Show
 data Vec1 x a = Vec1{unVec1::(a,x)}
@@ -18,6 +20,7 @@ data Vec1 x a = Vec1{unVec1::(a,x)}
 vecZero :: Vec x a
 vecZero = Vec []
 
+vecFromList l = Vec l 
 vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
 --TODO: Tratar do caso de x+y = 0 para retirar la de dentro
@@ -34,11 +37,16 @@ vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a
 vecConcat (Vec xs)(v) = foldr vecAdd v xs
 
 --TODO: Alterar esta funcao para truncar os vetores direitos. 
-vecTrunc :: (Eq a, Num x) => Vec x a -> Vec x a
-vecTrunc (Vec((x,y):xs)) = Vec(trunc' (x,y) xs) where
-    trunc'(a,x) [] = [(a,x)]
-    trunc'(a,x) ((b,y):ys) | a == b = (a,x+y) : trunc'(a,x) ys
-                           | otherwise = trunc'(b,y) ys
+sumAmplitudes::(Ord a, Ord b,Num a, Num b) => [(a,b)] -> (a,b) 
+sumAmplitudes stateList =
+    let states = map fst stateList
+        amplitudes = map snd stateList
+    in (head states, sum amplitudes)
+
+stateListTrunc ::(Ord a, Ord b, Num a, Num b) => [(a,b)] -> [(a,b)]
+stateListTrunc = map(sumAmplitudes) . groupBy ((==) `on` fst) . sort 
+
+vecTrunc (Vec(l)) = vecFromList(stateListTrunc l)
 
 vecProb ::Num a => Vec a b -> Vec a b
 vecProb (Vec[]) = Vec[] 
@@ -52,6 +60,7 @@ vecDistUniform a b = Vec((buildVec a b)) where
     buildVec x y = (x,1) : buildVec (x+1) (y-1)
 
 vecDistUniform1 l = Vec [(x,1 `div` length(l))  | x<-l]
+
 instance Num n => Functor(Vec n) where
     fmap = liftM
 
@@ -73,7 +82,10 @@ vec1 = return 0 :: Vec Double Int
 vec2 = return 1 :: Vec Double Int
 vec3 = return 2 :: Vec Double Int
 vec4 = Vec[(1,0.5),(1,0.5),(2,0.3),(2,0.1),(1,0.1),(2,0.7),(3,0.5)]
+listVec4=[(1,0.5),(1,0.5),(2,0.3),(2,0.1),(1,0.1),(2,0.7),(3,0.5)]
 vec5 = Vec[(1,1/sqrt(2)),(1,1/sqrt(2))]
 vec6 = return 0 :: Vec Rational Int
+vec7 = Vec[(1,0.1),(1,0.1),(2,0.1),(1,0.1),(2,0.1),(3,0.1)]
+listVec7 = [(1,0.1),(1,0.1),(2,0.1),(1,0.1),(2,0.1),(3,0.1)]
 vecConc1 = vecConcat vec1 vec2
 

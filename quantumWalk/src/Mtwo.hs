@@ -20,8 +20,6 @@ data Twice a  = In1 a | In2 a deriving Show      -- this is the functor T(A) = A
 data Square a = Pair(a,a) deriving Show 
 data Square' a =Pair' {pi1 :: a, pi2 :: a}  --this is the functor S(A) = A x A with projections pi1 and pi2
 
-
-
 data M2 t a  = M2 {unM2 :: Square  (t (Twice a)) }
 data M2' t a = M2'{unM2':: Square' (t (Twice a)) }
 
@@ -63,6 +61,9 @@ instance (Show a, Show b) => Show(M2 (Vec a) b) where
 instance Functor Twice where
      fmap f (In1 a) = In1( f a)
      fmap f (In2 a) = In2( f a) 
+
+unTwice (In1 a) = a
+unTwice (In2 a) = a
 
 eitherT :: (a->c) -> (a->c) ->(Twice a -> c)
 eitherT f _ (In1 a) = f a
@@ -117,9 +118,6 @@ sharp ::(Monad t)=> (a->M2 t b)->(M2 t a -> M2 t b)
 sharp f = M2. fmap(join1.fmap(eitherT(first1.f') (second1.f'))).unM2 where
      f' = unM2.f
 
---distrib k = Dist.uniform [k+1,k-1]
-
-
 instance (Monad t) => Monad (M2 t) where
      return :: a -> M2 t a
      return = M2. splitS (fmap(In1).return) (fmap(In2).return)
@@ -128,9 +126,6 @@ instance (Monad t) => Monad (M2 t) where
 --Examples
 examplefunc a= M2(Pair ([In1 (a-1),In2 (a+1)],[In1(a-1) ,In2 (a+1)]))
 exampleWalk = return 0 :: M2 [] Int
-
---fazer exemplos M2 e vec.
---Pensar como fazer o Mn.
 
 vector1 :: Vec Double Int
 vector1 = return 0 :: Vec Double Int
