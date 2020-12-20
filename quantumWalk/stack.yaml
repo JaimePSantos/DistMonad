@@ -40,8 +40,9 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
+  - Chart-1.9.3@sha256:b2bf7f6fc3236164905b008a4c909448b4afe813264ca3a925b238cfe1ee42c7,2949
+  - Chart-diagrams-1.9.3@sha256:dcaa8899fa5e2de7cd7013fdd84cc320a6ed63dc9d1bbf6559cd0233c7f9a4c2,1802
   - probability-0.2.7@sha256:3e9fe130af3bd75e791e1add902eb2caab170cc95373281c0a9626b01fc3b104,2869
-
 # Override default flag values for local packages and extra-deps
 # flags: {}
 

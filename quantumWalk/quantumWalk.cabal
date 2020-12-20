@@ -37,7 +37,7 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5, probability >= 0.2.7 && <3
+      base >=4.7 && <5, probability >= 0.2.7 && <3, Chart-diagrams>=1.9.3 && <2, Chart >= 1.9.3 && <2 
   default-language: Haskell2010
 
 executable quantumWalk-exe
@@ -47,9 +47,7 @@ executable quantumWalk-exe
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base >=4.7 && <5
-    , quantumWalk
+  build-depends: base >=4.7 && <5, quantumWalk, Chart-diagrams>=1.9.3 && <2, Chart >= 1.9.3 && <2 
   default-language: Haskell2010
 
 test-suite quantumWalk-test
@@ -63,4 +61,5 @@ test-suite quantumWalk-test
   build-depends:
       base >=4.7 && <5
     , quantumWalk
+    , Chart-diagrams>=1.9.3 && <2 
   default-language: Haskell2010

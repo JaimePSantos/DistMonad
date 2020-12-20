@@ -7,10 +7,10 @@
 /home/jaime/Programming/MonadsINESC/quantumWalk/ChangeLog.md:
   hash: 226e95cc82564f4991da16c8a9d4e8b3ee6abf1298b09c42c6baca5e9fff1404
 /home/jaime/Programming/MonadsINESC/quantumWalk/quantumWalk.cabal:
-  hash: eae39e3d0495647b38602f0b41941fef7e78e75efc240ccd9e3fb0bf70aa3a95
+  hash: ef3126c5bfe0d8b7c65389da2092e277528a48a635110a61ddb2cedc5223d334
 /home/jaime/Programming/MonadsINESC/quantumWalk/app/Main.hs:
-  hash: 76b6ff5a6856b39392800f564d81a7fd1496c8e13ac7941036946f0b5757272b
+  hash: b76640ec90f9249440ce5f52b70702a3101c9c389c3bcbf237c06b9a99b72f98
 ? /home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.0.1.0/build/quantumWalk-exe/autogen/Paths_quantumWalk.hs
-: hash: 30d45fd9fa89fd4e31e3fa6668db78ba74356a58beb6c6c8cf1d09d22c89a701
+: hash: be988db43f30c353a9627045d2bc62789abdb97e2d62a8a78b08b69ab2b13c0a
 ? /home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.0.1.0/build/quantumWalk-exe/autogen/cabal_macros.h
-: hash: 892420af431da11174b5883b49609874e897bfc8d58715197ab591316ca6140c
+: hash: fd44316ada9f44405a50523cdee462cb07806eac163bc9949663bdaa2e23da74

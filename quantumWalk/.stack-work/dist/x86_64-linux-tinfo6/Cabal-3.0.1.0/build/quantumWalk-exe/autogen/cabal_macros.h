@@ -11,6 +11,28 @@
   (major1) == 0 && (major2) == 1 && (minor) <= 0)
 #endif /* MIN_VERSION_quantumWalk */
 
+/* package Chart-1.9.3 */
+#ifndef VERSION_Chart
+#define VERSION_Chart "1.9.3"
+#endif /* VERSION_Chart */
+#ifndef MIN_VERSION_Chart
+#define MIN_VERSION_Chart(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  9 || \
+  (major1) == 1 && (major2) == 9 && (minor) <= 3)
+#endif /* MIN_VERSION_Chart */
+
+/* package Chart-diagrams-1.9.3 */
+#ifndef VERSION_Chart_diagrams
+#define VERSION_Chart_diagrams "1.9.3"
+#endif /* VERSION_Chart_diagrams */
+#ifndef MIN_VERSION_Chart_diagrams
+#define MIN_VERSION_Chart_diagrams(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  9 || \
+  (major1) == 1 && (major2) == 9 && (minor) <= 3)
+#endif /* MIN_VERSION_Chart_diagrams */
+
 /* package base-4.13.0.0 */
 #ifndef VERSION_base
 #define VERSION_base "4.13.0.0"
@@ -133,7 +155,7 @@
 #endif /* MIN_TOOL_VERSION_strip */
 
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "quantumWalk-0.1.0.0-CTAGOOea0sG5QcEaoFvoE3-quantumWalk-exe"
+#define CURRENT_COMPONENT_ID "quantumWalk-0.1.0.0-IEUbRdl8jru7nrVcUTfKtu-quantumWalk-exe"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

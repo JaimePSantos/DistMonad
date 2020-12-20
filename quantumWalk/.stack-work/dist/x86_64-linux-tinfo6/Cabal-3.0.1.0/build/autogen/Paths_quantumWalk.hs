@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/bin"
-libdir     = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/lib/x86_64-linux-ghc-8.8.4/quantumWalk-0.1.0.0-7e5rNeyuMc5FaqizAO1vZU"
+libdir     = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/lib/x86_64-linux-ghc-8.8.4/quantumWalk-0.1.0.0-KCCNRwe0NYwCbIQDJZdyHC"
 dynlibdir  = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/lib/x86_64-linux-ghc-8.8.4"
 datadir    = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/share/x86_64-linux-ghc-8.8.4/quantumWalk-0.1.0.0"
 libexecdir = "/home/jaime/Programming/MonadsINESC/quantumWalk/.stack-work/install/x86_64-linux-tinfo6/3997baad4bca4e2ce6ea86085dc6ea654aaae28b47d90cb299fd12375eec8389/8.8.4/libexec/x86_64-linux-ghc-8.8.4/quantumWalk-0.1.0.0"
