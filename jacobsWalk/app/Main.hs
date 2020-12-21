@@ -2,12 +2,14 @@ module Main where
 
 import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Diagrams
+import QWalk
 
 signal :: [Double] -> [(Double,Double)]
-signal xs = [ (x,(sin (x*3.14159/45) + 1) / 2 * (sin (x*3.14159/5))) | x <- xs ]
-
-main = toFile def "example1_big.svg" $ do
+signal xs = [ (x,1/x ) | x <- xs ]
+quantumPlot n = stateList n initCondQuantum
+main =
+    toFile def "example1_big.svg" $ do
     layout_title .= "Amplitude Modulation"
     setColors [opaque blue, opaque red]
-    plot (line "am" [signal [0,(0.5)..400]])
-    plot (points "am points" (signal [0,7..400]))
+    plot (line "am" [quantumPlot 20])
+    plot (points "am points" (quantumPlot 20))
