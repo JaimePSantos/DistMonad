@@ -1,0 +1,18 @@
+? /home/jaime/Programming/MonadsINESC/jacobsWalk/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.0.1.0/build/jacobsWalk-exe/autogen/cabal_macros.h
+: hash: 4257ca55c2ded2732dcb50dac1a23dcd31775ce6b03826573bab6568dd7681af
+/home/jaime/.stack/programs/x86_64-linux/ghc-tinfo6-8.8.4/lib/ghc-8.8.4/include/ghcversion.h:
+  hash: 297e8571427d670d413977834f5cdfc77cb89051d2f5b8302303c442346d15d0
+/home/jaime/Programming/MonadsINESC/jacobsWalk/package.yaml:
+  hash: 388b1b4e574fbe635b2bb6595b723b537986ee91e54d40b4d92543809a629c64
+/usr/include/stdc-predef.h:
+  hash: 64fdf694f7b3d51ec6c45c06dcb71ebbe9455742d3ea673012016668853d3bff
+/home/jaime/Programming/MonadsINESC/jacobsWalk/jacobsWalk.cabal:
+  hash: ee7818fefc1594aba437343d57821c5e9b2a167859ebe5f4dab10f168d5b1a76
+? /home/jaime/Programming/MonadsINESC/jacobsWalk/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.0.1.0/build/jacobsWalk-exe/autogen/Paths_jacobsWalk.hs
+: hash: 9b55571ab57f604b2e45a44d4ca7eece1ed714a007edf966d4d29c0b8edad528
+/home/jaime/Programming/MonadsINESC/jacobsWalk/app/Main.hs:
+  hash: 0777b987c6ee2bb0d393098538f78e8c8c242def6ecc0dccc09c5d9e6de4be18
+/home/jaime/Programming/MonadsINESC/jacobsWalk/README.md:
+  hash: 3a588e87d4d9eeef8a4bc227e77085301d9ca9c93ee27a2467d8d6ecc54d5128
+/home/jaime/Programming/MonadsINESC/jacobsWalk/ChangeLog.md:
+  hash: 491831d344c590c2203e302ca190dd4be83924c30ddd46403f2f552a505f33b5
