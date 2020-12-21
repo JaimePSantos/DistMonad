@@ -13,6 +13,7 @@ import Control.Applicative
 import Data.Functor.Classes
 import Data.List
 import Data.Function
+import Data.Complex
 
 data Vec x a = Vec{unVec::[(a,x)]}-- deriving Show
 data Vec1 x a = Vec1{unVec1::(a,x)}
@@ -46,13 +47,14 @@ sumAmplitudes stateList =
 stateListTrunc ::(Ord a, Ord b, Num a, Num b) => [(a,b)] -> [(a,b)]
 stateListTrunc = map(sumAmplitudes) . groupBy ((==) `on` fst) . sort 
 
+vecTrunc :: (Ord a, Ord b, Num a, Num b)=> Vec a b -> Vec a b
 vecTrunc (Vec(l)) = vecFromList(stateListTrunc l)
 
-vecProb ::Num a => Vec a b -> Vec a b
+vecProb ::(Num a,RealFloat a) => Vec (Complex a) b -> Vec a b
 vecProb (Vec[]) = Vec[] 
 vecProb (Vec l) = Vec( vecProb' l) where
     vecProb' [] = []
-    vecProb'((j,k):ks) = (j,abs(k)^2) : vecProb' ks 
+    vecProb'((j,k):ks) = (j,realPart(abs(k)^2)) : vecProb' ks 
 
 vecDistUniform :: (Fractional a,Eq b,Num b) => a -> b -> Vec a a 
 vecDistUniform a b = Vec((buildVec a b)) where

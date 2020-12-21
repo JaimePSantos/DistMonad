@@ -4,13 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 57ab561f388616f10c995812078d2e9199320a884cb74cb28b4d2a4d9ae1875f
+-- hash: 41f7a8a0cff1c211010448a6d7e8101c03b9756b6ed3b84201badc7b41d121d8
 
-name:           quantumWalk
+name:           jacobsWalk
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/quantumWalk#readme>
-homepage:       https://github.com/githubuser/quantumWalk#readme
-bug-reports:    https://github.com/githubuser/quantumWalk/issues
+description:    Please see the README on GitHub at <https://github.com/githubuser/jacobsWalk#readme>
+homepage:       https://github.com/githubuser/jacobsWalk#readme
+bug-reports:    https://github.com/githubuser/jacobsWalk/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2020 Author name here
@@ -23,44 +23,49 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/quantumWalk
+  location: https://github.com/githubuser/jacobsWalk
 
 library
   exposed-modules:
-      Experiments.EitherSplit
       Lib
       Mtwo
-      Vector
       QWalk
+      Vector
   other-modules:
-      Paths_quantumWalk
+      Paths_jacobsWalk
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5, probability >= 0.2.7 && <3
+      Chart
+    , Chart-diagrams
+    , base >=4.7 && <5
   default-language: Haskell2010
 
-executable quantumWalk-exe
+executable jacobsWalk-exe
   main-is: Main.hs
   other-modules:
-      Paths_quantumWalk
+      Paths_jacobsWalk
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
-    , quantumWalk
+      Chart
+    , Chart-diagrams
+    , base >=4.7 && <5
+    , jacobsWalk
   default-language: Haskell2010
 
-test-suite quantumWalk-test
+test-suite jacobsWalk-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_quantumWalk
+      Paths_jacobsWalk
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
-    , quantumWalk
+      Chart
+    , Chart-diagrams
+    , base >=4.7 && <5
+    , jacobsWalk
   default-language: Haskell2010
