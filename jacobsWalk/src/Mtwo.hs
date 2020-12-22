@@ -16,7 +16,7 @@ import Data.Functor.Classes
 import Vector
 
 --Helper structures
-data Twice a  = In1 a | In2 a deriving Show      -- this is the functor T(A) = A + A with injections In1 and In2
+data Twice a  = In1 a | In2 a deriving (Show,Eq ,Ord)      -- this is the functor T(A) = A + A with injections In1 and In2
 data Square a = Pair(a,a) deriving Show 
 data Square' a =Pair' {pi1 :: a, pi2 :: a}  --this is the functor S(A) = A x A with projections pi1 and pi2
 

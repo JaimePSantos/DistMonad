@@ -27,6 +27,6 @@ walkProb n = M2 . fmap (vecProb).unM2.(quantumWalkN n)
 
 --used for plotting
 stateList:: (Ord a, Num a) =>Int -> M2 (Vec (Complex Float)) a -> [(a, Float)] 
-stateList n = unVec.vecTrunc.first1. fmap (vecProb.fmap unTwice).unM2.(quantumWalkN n)   
+stateList n  = unVec.vecTrunc.vecProb.fmap(unTwice).vecTrunc.first1.unM2.(quantumWalkN n )   
 
---TODO: Implementar quantum walk probabilistica.
+--TODO: Implementar quantum walk probabilisticas

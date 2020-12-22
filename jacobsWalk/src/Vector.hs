@@ -22,6 +22,7 @@ vecZero :: Vec x a
 vecZero = Vec []
 
 vecFromList l = Vec l 
+
 vecAdd :: (Eq a, Num x) => (a,x) -> Vec x a ->  Vec x a
 
 --TODO: Tratar do caso de x+y = 0 para retirar la de dentro
@@ -38,16 +39,16 @@ vecConcat :: (Eq a, Num x) => Vec x a -> Vec x a -> Vec x a
 vecConcat (Vec xs)(v) = foldr vecAdd v xs
 
 --TODO: Alterar esta funcao para truncar os vetores direitos. 
-sumAmplitudes::(Ord a, Ord b,Num a, Num b) => [(a,b)] -> (a,b) 
+sumAmplitudes::(Num b) => [(a,b)] -> (a,b) 
 sumAmplitudes stateList =
     let states = map fst stateList
         amplitudes = map snd stateList
     in (head states, sum amplitudes)
 
-stateListTrunc ::(Ord a, Ord b, Num a, Num b) => [(a,b)] -> [(a,b)]
-stateListTrunc = map(sumAmplitudes) . groupBy ((==) `on` fst) . sort 
+stateListTrunc ::(Ord a, Num b) => [(a,b)] -> [(a,b)]
+stateListTrunc = map(sumAmplitudes) . groupBy ((==) `on` fst) . sortBy(compare `on` fst) 
 
-vecTrunc :: (Ord a, Ord b, Num a, Num b)=> Vec a b -> Vec a b
+vecTrunc :: (Ord a,Num b)=> Vec b a  -> Vec b a
 vecTrunc (Vec(l)) = vecFromList(stateListTrunc l)
 
 vecProb ::(Num a,RealFloat a) => Vec (Complex a) b -> Vec a b
