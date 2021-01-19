@@ -22,6 +22,7 @@ quantumWalkN :: (Ord b,Num b) => Int -> M2( Vec( Complex Float)) b -> M2( Vec( C
 quantumWalkN (0) state = state
 quantumWalkN n state = quantumWalkN (n-1) (state >>= hadamardCoin)
 
+--Must be applied to an initial condition.
 walkProb :: (Ord a, Num a) =>Int -> M2 (Vec (Complex Float)) a -> M2( Vec(Float)) a
 walkProb n = M2 . fmap (vecProb).unM2.(quantumWalkN n)
 
