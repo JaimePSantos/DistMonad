@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2d32e41197c211e859dbbfffa574eb77c7e2c58ca3bfc2aa6bdcb8e0c12f0bd0
+-- hash: cec01ffd9e2ce93e8c70ec5707d210d1cd550ace7408038e602c978e15374704
 
 name:           jacobsWalk
 version:        0.1.0.0
@@ -28,10 +28,11 @@ source-repository head
 library
   exposed-modules:
       Lib
-      Map
+      MapExample
       Mtwo
       QWalk
       Set
+      SetExample
       Vector
   other-modules:
       Paths_jacobsWalk
