@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 41f7a8a0cff1c211010448a6d7e8101c03b9756b6ed3b84201badc7b41d121d8
+-- hash: cec01ffd9e2ce93e8c70ec5707d210d1cd550ace7408038e602c978e15374704
 
 name:           jacobsWalk
 version:        0.1.0.0
@@ -28,8 +28,11 @@ source-repository head
 library
   exposed-modules:
       Lib
+      MapExample
       Mtwo
       QWalk
+      Set
+      SetExample
       Vector
   other-modules:
       Paths_jacobsWalk
@@ -39,6 +42,7 @@ library
       Chart
     , Chart-diagrams
     , base >=4.7 && <5
+    , containers
   default-language: Haskell2010
 
 executable jacobsWalk-exe
@@ -52,6 +56,7 @@ executable jacobsWalk-exe
       Chart
     , Chart-diagrams
     , base >=4.7 && <5
+    , containers
     , jacobsWalk
   default-language: Haskell2010
 
@@ -67,5 +72,6 @@ test-suite jacobsWalk-test
       Chart
     , Chart-diagrams
     , base >=4.7 && <5
+    , containers
     , jacobsWalk
   default-language: Haskell2010
