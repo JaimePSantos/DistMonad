@@ -27,19 +27,19 @@ exampleDelete = S.delete 3 exampleSet2
 exampleInsert = S.insert 7 exampleSet2
 
 --SetMonad Examples
-exampleSM1 = SM.fromList[1,2,3]
-exampleSM2 = SM.fromList [4,5,6]
-exampleSMUnion = SM.union exampleSM1 exampleSM2
-exampleSMDifference = SM.difference (SM.insert 5 exampleSM1) exampleSM2
-exampleSMIntersection = SM.intersection (SM.insert 5 exampleSM1) (SM.insert 3 exampleSM2)
-
-exampleSMList :: [SM.SetMon Int]
-exampleSMList = [exampleSM1, exampleSM2]
-exampleSMListUnion = SM.unions exampleSMList
-
-exampleSMSingleton :: SM.SetMon Int
-exampleSMSingleton = SM.singleton 1
-exampleSMEmpty = SM.empty
-
-exampleSMDelete = SM.delete 3 exampleSM2
-exampleSMInsert = SM.insert 7 exampleSM2
+--exampleSM1 = SM.fromList[1,2,3]
+--exampleSM2 = SM.fromList [4,5,6]
+--exampleSMUnion = SM.union exampleSM1 exampleSM2
+--exampleSMDifference = SM.difference (SM.insert 5 exampleSM1) exampleSM2
+--exampleSMIntersection = SM.intersection (SM.insert 5 exampleSM1) (SM.insert 3 exampleSM2)
+--
+--exampleSMList :: [SM.SetMon Int]
+--exampleSMList = [exampleSM1, exampleSM2]
+--exampleSMListUnion = SM.unions exampleSMList
+--
+--exampleSMSingleton :: SM.SetMon Int
+--exampleSMSingleton = SM.singleton 1
+--exampleSMEmpty = SM.empty
+--
+--exampleSMDelete = SM.delete 3 exampleSM2
+--exampleSMInsert = SM.insert 7 exampleSM2
