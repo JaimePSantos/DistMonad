@@ -20,6 +20,10 @@ singleton :: k -> a -> Dist k a
 singleton a k = Dist $ M.singleton k a
 mapSingleton = singleton 1 'a'
 
+insert :: Ord k => k -> a -> Dist a k -> Dist a k 
+insert a k m = Dist $ M.insert a k m' where
+  m' = unDist m
+
 fromList :: Ord k => [(k, a)] -> Dist a k 
 fromList x = Dist $ M.fromList x 
 
@@ -30,7 +34,7 @@ mMap :: (a -> b) -> Dist a k -> Dist b k
 mMap f x = Dist $ M.map f x' where
   x' = unDist x
 
-multiply :: Num a => a -> Dist a b -> Dist a b
+multiply :: Num a => a -> Dist a k -> Dist a k
 multiply v m = Dist $ M.map (v*) m' where
   m' = unDist m
 
@@ -39,5 +43,8 @@ instance (Show k,Show a) => Show(Dist k a) where
 
 instance (Num k) => AM.OrdMonad (Dist k) where
    ordReturn x = singleton 1 x
-   m `ordBind`  f = undefined--mMap (\(x,v) -> multiply v (f x)) (assocs m)
+   m `ordBind`  f = undefined--mMap (\(x,v) -> multiply v (f x)) (assocs m)--
 
+distExample = AM.ordReturn 0 :: Dist Rational Int 
+distExample2 = insert 1 1 distExample
+func a dist = multiply a dist 
