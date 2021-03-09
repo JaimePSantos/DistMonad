@@ -15,6 +15,8 @@ sqrRoot = 1/sqrt(2) :: Complex Float
 initCondQuantum = return 0 :: M2 (Vec (Complex Float)) (Int)
 initCondClassical = return 0 :: M2 (Vec (Rational)) (Int)
 
+-- COin + shift
+-- TODO: Decompor isto em coin e shift.
 hadamardCoin a = M2 $ Pair ( Vec[(In1( a-1), sqrRoot),(In2( a+1),sqrRoot)], Vec[(In1 (a-1), sqrRoot),(In2 (a+1),-sqrRoot)])
 
 --Isto resulta em duas quantum walks com 2 condicoes iniciais diferentes.

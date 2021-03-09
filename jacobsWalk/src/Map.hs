@@ -51,6 +51,7 @@ unionWith f m1 m2 = Dist $ M.unionWith f m1' m2' where
   m1' = unDist m1
   m2' = unDist m2 
 
+--TODO: Map do unDist.
 unionsWith :: Ord k => (a->a->a) -> [Dist a k] -> Dist a k
 unionsWith f ts = foldlStrict (unionWith f) empty ts
 
@@ -62,7 +63,9 @@ instance (Num k) => AM.OrdMonad (Dist k) where
    m `ordBind`  f = unionsWith (+) $ map (\(x,v) -> multiply v (f x)) (assocs m)
 
 distExample = AM.ordReturn 0 :: Dist Rational Int 
-distExample2 = insert 1 1 distExample
+--distExample2 = insert 1 1 distExample
 
-func :: Int -> Dist Rational Int
-func a = fromList $ [(a+1,1%2)] 
+--func :: Int -> Dist Rational Int
+--func a = fromList $ [(a+1,1%2),(a-1,1%2)]
+
+-- TODO: Fazer uma funcao de medicao. Amplitudes para probablidades.
