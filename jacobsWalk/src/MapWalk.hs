@@ -24,8 +24,9 @@ initCondQuantumMap :: M2 (QDist) Int
 initCondQuantumMap = M2 $ Pair ( fromList [(In1 0, 1 :: Complex Float)] , fromList[(In2 0, 1 :: Complex Float)])
 
 quantumWalkN :: (Ord a,Num a) => Int -> M2 (QDist) a -> M2 (QDist) a
-quantumWalkN (0) state = state
-quantumWalkN n state =  quantumWalkN (n-1) (state `AM.ordBind`  hadamardCoinMap) 
+quantumWalkN = undefined
+--quantumWalkN (0) state = state
+--quantumWalkN n state =  quantumWalkN (n-1) (state `AM.ordBind`  hadamardCoinMap) 
 --quantumWalkN n state = quantumWalkN (n-1) (state' `AM.ordBind`  hadamardCoinMap') where
 --  state' = unM2 $ state
 --  hadamardCoinMap' a = unM2 $ hadamardCoinMap a

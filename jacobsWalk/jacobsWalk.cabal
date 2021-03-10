@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9e8b05a63ffea2cb5ae45b1037c53b24c9655913d026836601edc4a320be31ee
+-- hash: 70e921f11c31c3409ab0fc5ae3e1c510f0428885d1753788c0a8d45eb0eeb3cc
 
 name:           jacobsWalk
 version:        0.1.0.0
@@ -30,6 +30,9 @@ library
       AsMonad
       Lib
       Map
+      MapMon
+      MapMTwo
+      MapTwo
       MapWalk
       Mtwo
       QWalk
