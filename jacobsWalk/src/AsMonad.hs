@@ -28,6 +28,10 @@ instance OrdMonad m => Monad (AsMonad m) where
   return = Return
   (>>=) = Bind
 
+--joinMap ::(AM.OrdMonad m) => m(m a) -> m a
+--joinMap x = x `AM.ordBind` id
+
+
 unEmbed :: Ord a => AsMonad m a -> m a
 unEmbed (Embed m) = m
 unEmbed (Return v) = ordReturn v

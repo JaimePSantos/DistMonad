@@ -12,6 +12,10 @@ import qualified AsMonad as AM
 import Data.Ratio
 
 newtype Dist a k = Dist{unDist:: M.Map k a}
+type AsMonDist a = AM.AsMonad(Dist a ) 
+
+instance (Show a, Show k,Ord k) => Show(AsMonDist a k) where
+   show(x) =  show(AM.unEmbed(x)) 
 
 empty :: Dist a k 
 empty = Dist $ M.empty
@@ -27,6 +31,9 @@ insert a k m = Dist $ M.insert a k m' where
 
 fromList :: Ord k => [(k, a)] -> Dist a k 
 fromList x = Dist $ M.fromList x 
+
+fromListAM ::(Num a, Ord k) => [(k, a)] -> AsMonDist a k 
+fromListAM x = AM.Embed $ Dist $ M.fromList x 
 
 assocs :: Dist a k -> [(k, a)] 
 assocs x =  M.assocs (unDist x)
@@ -63,9 +70,9 @@ instance (Num k) => AM.OrdMonad (Dist k) where
    m `ordBind`  f = unionsWith (+) $ map (\(x,v) -> multiply v (f x)) (assocs m)
 
 distExample = AM.ordReturn 0 :: Dist Rational Int 
---distExample2 = insert 1 1 distExample
+distExample2 = insert 1 1 distExample
 
---func :: Int -> Dist Rational Int
---func a = fromList $ [(a+1,1%2),(a-1,1%2)]
+func :: Int -> Dist Rational Int
+func a = fromList $ [(a+1,1%2),(a-1,1%2)]
 
 -- TODO: Fazer uma funcao de medicao. Amplitudes para probablidades.
