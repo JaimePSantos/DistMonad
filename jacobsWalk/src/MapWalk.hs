@@ -14,19 +14,19 @@ import Data.Ratio
 import qualified AsMonad as AM 
 
 --TODO: Perceber como mudar de complex float para complex rational ou assim.
-type QDist  = Dist (Complex Float)
+type QDist  = AsMonDist(Complex Float)
  
 sqrRoot = 1/sqrt(2) :: Complex Float 
 hadamardCoinMap :: (Ord a, Num a) => a -> M2 (QDist) a 
-hadamardCoinMap a = M2 $ Pair ( fromList[(In1( a-1), sqrRoot),(In2( a+1),sqrRoot)], fromList[(In1 (a-1), sqrRoot),    (In2 (a+1),-sqrRoot)])
+hadamardCoinMap a = M2 $ Pair ( fromListAM[(In1( a-1), sqrRoot),(In2( a+1),sqrRoot)], fromListAM[(In1 (a-1), sqrRoot),    (In2 (a+1),-sqrRoot)])
 
 initCondQuantumMap :: M2 (QDist) Int  
-initCondQuantumMap = M2 $ Pair ( fromList [(In1 0, 1 :: Complex Float)] , fromList[(In2 0, 1 :: Complex Float)])
-
-quantumWalkN :: (Ord a,Num a) => Int -> M2 (QDist) a -> M2 (QDist) a
-quantumWalkN = undefined
---quantumWalkN (0) state = state
---quantumWalkN n state =  quantumWalkN (n-1) (state `AM.ordBind`  hadamardCoinMap) 
+initCondQuantumMap = M2 $ Pair ( fromListAM [(In1 0, 1 :: Complex Float)] , fromListAM [(In2 0, 1 :: Complex Float)])
+--
+quantumWalkNMap :: (Ord a,Num a) => Int -> M2 (QDist) a -> M2 (QDist) a
+--quantumWalkN = undefined
+quantumWalkNMap (0) state = state
+quantumWalkNMap n state =  quantumWalkNMap (n-1) (state >>= hadamardCoinMap) 
 --quantumWalkN n state = quantumWalkN (n-1) (state' `AM.ordBind`  hadamardCoinMap') where
 --  state' = unM2 $ state
 --  hadamardCoinMap' a = unM2 $ hadamardCoinMap a

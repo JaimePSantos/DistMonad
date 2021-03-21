@@ -78,19 +78,19 @@ first1 (Pair(a,b)) = a
 second1 :: Square a -> a
 second1 (Pair(a,b)) = b
 
-joinMap ::(AM.OrdMonad m) => m(m a) -> m a
-joinMap x = x >>= id
+--joinMap ::(AM.OrdMonad m) => m(m a) -> m a
+--joinMap x = x `AM.ordBind` id
+--
+--sharpMap ::(AM.OrdMonad t)=> (a->MapM2 t b)->(MapM2 t a -> MapM2 t b)
+--sharpMap f = MapM2. fmap(joinMap.(fmap)(eitherT(first1.f') (second1.f'))).unMapM2 where
+--     f' = unMapM2.f
 
-sharpMap ::(AM.OrdMonad t)=> (a->MapM2 t b)->(MapM2 t a -> MapM2 t b)
-sharpMap f = MapM2. fmap(joinMap.(fmap)(eitherT(first1.f') (second1.f'))).unMapM2 where
-     f' = unMapM2.f
-
-instance (Functor t) => Functor(AM.OrdMonad t) where
-  fmap = liftM
-
-instance (AM.OrdMonad t) => AM.OrdMonad (MapM2 t) where
-     ordReturn = MapM2. splitS (fmap(In1).(AM.ordReturn)) (fmap(In2).(AM.ordReturn))
-     x `ordBind` f  = sharpMap f x
+--instance (Functor t) => Functor(AM.OrdMonad t) where
+--  fmap = liftM
+--
+--instance (AM.OrdMonad t) => AM.OrdMonad (MapM2 t) where
+--     ordReturn = MapM2. splitS (fmap(In1).(AM.ordReturn)) (fmap(In2).(AM.ordReturn))
+--     x `ordBind` f  = sharpMap f x
 
 --TODO: Reescrever com OrdMonad?
 --MapM2

@@ -14,7 +14,8 @@ import Data.Functor.Classes
 --import qualified Numeric.Probability.Distribution as Dist
 --import Numeric.Probability.Distribution ((??), (?=<<), )
 import Vector
-import qualified Map as MMM
+import Map 
+import qualified AsMonad as AM
 --import MapTwo
 
 --Helper structures
@@ -59,9 +60,11 @@ data M2' t a = M2'{unM2':: Square' (t (Twice a)) }
 instance (Show a, Show b) => Show(M2 (Vec a) b) where
      show(M2 x) = "M2 ( " ++ show(x) ++ ")" 
 
-instance (Show a, Show b) => Show(M2 (MMM.Dist a) b) where
+instance (Show a, Show b) => Show(M2 (Dist a) b) where
      show(M2 x) = "M2 ( " ++ show(x) ++ ")" 
 
+instance (Show a, Show b, Ord b) => Show(M2 (AsMonDist a) b) where
+     show(M2 x) = "M2 ( " ++ show(x) ++ ")" 
 
 
 --Twice
