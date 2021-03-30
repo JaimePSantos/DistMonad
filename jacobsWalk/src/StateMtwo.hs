@@ -4,7 +4,7 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE GADTs #-}
 
-module StateMN where
+module StateMtwo where
 
 import Control.Monad(join,ap)
 import Control.Applicative
@@ -17,8 +17,8 @@ import System.Random
 import Control.Monad (replicateM)
 import Control.Applicative (liftA3)
 
-data Two = O | T
-type M2 t a  = StateT Two t a 
+data Two = H | T deriving (Show, Eq,Ord)
+type StateM2 t a  = StateT Two t a 
 
 --data Twice a  = In1 a | In2 a deriving (Show,Eq ,Ord) 
 
@@ -33,12 +33,13 @@ type M2 t a  = StateT Two t a
 --func3 f = ( f O, f T)
 
 func4 :: (a,a) -> (Two -> a)
-func4 p O = fst p 
+func4 p H = fst p 
 func4 p T = snd p 
 
 --func4 :: [a] -> Int -> a) 
-
-examplefunc1 a=  StateT $ func4 ([(a-1,O) , (a+1,T)],[(a-1,O) ,(a+1,T)])
+--examplefunc1 :: Num a => a -> StateT Two [] a
+examplefunc1 :: Num a => a -> StateM2 [] a
+examplefunc1 a =  StateT $ func4 ([(a-1,H) , (a+1,T)],[(a-1,H) ,(a+1,T)])
 --exampleWalk = return 0 :: M2 [] Int
 --TODO: Fazer uma qwalk para o State Two
 --TODO: Definir State s

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d5b7601f5a0799197c993752554c716f7ff63466fc54d0dc694fe92b31fbba80
+-- hash: 98522c5e0c43100a296fbfec5f003084750abaa8baee06a72a6ecece518b91bf
 
 name:           jacobsWalk
 version:        0.1.0.0
@@ -36,7 +36,8 @@ library
       QWalk
       Set
       StateExample
-      StateMN
+      StateMtwo
+      StateWalk
       Vector
   other-modules:
       Paths_jacobsWalk
