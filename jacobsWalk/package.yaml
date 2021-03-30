@@ -24,6 +24,8 @@ dependencies:
 - Chart
 - Chart-diagrams
 - containers
+- mtl
+- random
 
 library:
   source-dirs: src
