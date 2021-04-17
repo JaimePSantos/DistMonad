@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 98522c5e0c43100a296fbfec5f003084750abaa8baee06a72a6ecece518b91bf
+-- hash: 223b1fa25b0edac1211e5fc5c2ba148f6e94713e97485a1de3b61d82b6ac3bad
 
 name:           jacobsWalk
 version:        0.1.0.0
@@ -50,6 +50,7 @@ library
     , containers
     , mtl
     , random
+    , semiring-simple >=1 && <2
   default-language: Haskell2010
 
 executable jacobsWalk-exe
@@ -67,6 +68,7 @@ executable jacobsWalk-exe
     , jacobsWalk
     , mtl
     , random
+    , semiring-simple >=1 && <2
   default-language: Haskell2010
 
 test-suite jacobsWalk-test
@@ -85,4 +87,5 @@ test-suite jacobsWalk-test
     , jacobsWalk
     , mtl
     , random
+    , semiring-simple >=1 && <2
   default-language: Haskell2010

@@ -15,6 +15,7 @@ import StateMtwo
 import Control.Monad.State
 
 type QDist  = AsMonDist(Complex Float)
+type CDist = AsMonDist(Float) 
 
 stateInitCondQMap :: (Num a,Ord a) =>StateM2 (QDist) a
 stateInitCondQMap = StateT $ func4( fromListAM[((0,H),1 :: Complex Float)],  fromListAM[((0,T),1 :: Complex Float)])
@@ -27,5 +28,10 @@ stateQuantumWalkNMap :: (Ord a,Num a) => Int -> StateM2 (QDist) a -> StateM2 (QD
 stateQuantumWalkNMap (0) state = state
 stateQuantumWalkNMap n state =  stateQuantumWalkNMap (n-1) (state >>= stateHadamardCoinMap)
 
-printStateQuantumWalMap = runStateT (stateQuantumWalkNMap 1 stateInitCondQMap)
+probsState :: (Ord a, Num a) => Int -> StateM2 (CDist) a 
+probsState n = mapStateT getProbsAM $ stateQuantumWalkNMap n stateInitCondQMap
+
+printProbs n = evalStateT(probsState n) T 
+
+printStateQuantumWalkMap n = runStateT (stateQuantumWalkNMap n stateInitCondQMap) H 
 

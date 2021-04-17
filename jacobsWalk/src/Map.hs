@@ -10,8 +10,11 @@ import Control.Monad       (liftM, ap,mapM)
 import qualified Data.Foldable as Foldable
 import qualified AsMonad as AM 
 import Data.Ratio
+import Data.Complex 
+import qualified Data.Semiring as SM
 
 newtype Dist a k = Dist{unDist:: M.Map k a}
+newtype Dist2 a k = Dist2{unDist2:: M.Map k a}
 type AsMonDist a = AM.AsMonad(Dist a ) 
 
 instance (Show a, Show k,Ord k) => Show(AsMonDist a k) where
@@ -42,11 +45,19 @@ mMap :: (a -> b) -> Dist a k -> Dist b k
 mMap f x = Dist $ M.map f x' where
   x' = unDist x
 
+mMapAM ::(Num b, Num a, Ord k) => (a -> b) -> AsMonDist a k -> AsMonDist b k
+mMapAM f x = AM.Embed . mMap f . AM.unEmbed $ x 
+
 multiply :: Num a => a -> Dist a k -> Dist a k
 multiply v m = Dist $ M.map (v*) m' where
   m' = unDist m
 
--- Nao entendi muito bem esta funcao.
+realFunc x =(realPart(abs(x)^2))
+
+getProbs (Dist a) = mMap (realFunc) (Dist a) 
+
+getProbsAM (a) = mMapAM (realFunc) (a) 
+
 foldlStrict :: (a -> b -> a) -> a -> [b] -> a
 foldlStrict f = go
   where
@@ -69,6 +80,13 @@ instance (Num k) => AM.OrdMonad (Dist k) where
    ordReturn x = singleton 1 x
    m `ordBind`  f = unionsWith (+) $ map (\(x,v) -> multiply v (f x)) (assocs m)
 
+--instance SM.Semiring(Dist k) where
+--   zero = undefined
+--   one = undefined
+--   plus = undefined
+--   times = undefined
+--   fromNatural = undefined 
+
 distExample = AM.ordReturn 0 :: Dist Rational Int 
 distExample2 = insert 1 1 distExample
 
@@ -76,3 +94,21 @@ func :: Int -> Dist Rational Int
 func a = fromList $ [(a+1,1%2),(a-1,1%2)]
 
 -- TODO: Fazer uma funcao de medicao. Amplitudes para probablidades.
+--
+--
+--newtype Complex2 a = C2{unC2::Complex a} deriving ( Eq, Floating,Fractional )
+--
+--instance  (RealFloat a) => Num (Complex2 a)  where
+--    {-# SPECIALISE instance Num (Complex2 Float) #-}
+--    {-# SPECIALISE instance Num (Complex2 Double) #-}
+--    C2(x:+y) + C2(x':+y')   =  C2 $ sqrt((x:+y)^2 + (x':+y')^2)
+--    C2(x:+y) * C2(x':+y')   =  C2 $ (x*x'-y*y') :+ (x*y'+y*x')
+--    fromInteger n  = C2 $ fromInteger n :+ 0
+--
+--instance Show(a) => Show(Complex2 a) where
+--  show(C2 x) = show(x)
+--
+--ble :: Complex2 Float
+--ble = C2 $ 1 :+ 1 
+--ble2 = C2 $ 1 :+ 1
+--ble3 = ble + ble2

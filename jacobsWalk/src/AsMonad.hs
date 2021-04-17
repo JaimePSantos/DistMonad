@@ -15,7 +15,7 @@ class OrdMonad m where
 data AsMonad m a where
   Embed :: (OrdMonad m, Ord a) => m a -> AsMonad m a
   Return :: OrdMonad m => a -> AsMonad m a
-  Bind :: OrdMonad m => AsMonad m a -> (a -> AsMonad m b) -> AsMonad m b 
+  Bind :: (OrdMonad m) => AsMonad m a -> (a -> AsMonad m b) -> AsMonad m b 
 
 instance OrdMonad m => Functor (AsMonad m) where
   fmap = liftM
@@ -32,7 +32,7 @@ instance OrdMonad m => Monad (AsMonad m) where
 --joinMap x = x `AM.ordBind` id
 
 
-unEmbed :: Ord a => AsMonad m a -> m a
+unEmbed :: (Ord a) => AsMonad m a -> m a
 unEmbed (Embed m) = m
 unEmbed (Return v) = ordReturn v
 unEmbed (Bind (Embed m) f) = m `ordBind` (unEmbed . f)

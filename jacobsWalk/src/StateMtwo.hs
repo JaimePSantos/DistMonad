@@ -20,8 +20,6 @@ import Control.Applicative (liftA3)
 data Two = H | T deriving (Show, Eq,Ord)
 type StateM2 t a  = StateT Two t a 
 
---data Twice a  = In1 a | In2 a deriving (Show,Eq ,Ord) 
-
 --func :: Twice a -> (a,Two)
 --func (In1 a) = (a,O)
 --func (In2 a) = (a,T)
