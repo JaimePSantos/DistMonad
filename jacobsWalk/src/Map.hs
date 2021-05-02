@@ -14,11 +14,14 @@ import Data.Complex
 import qualified Data.Semiring as SM
 
 newtype Dist a k = Dist{unDist:: M.Map k a}
-newtype Dist2 a k = Dist2{unDist2:: M.Map k a}
 type AsMonDist a = AM.AsMonad(Dist a ) 
 
 instance (Show a, Show k,Ord k) => Show(AsMonDist a k) where
    show(x) =  show(AM.unEmbed(x)) 
+
+toListAM :: Ord k => AsMonDist a k -> [(k,a)] 
+toListAM x = M.toList . unDist . AM.unEmbed $ x
+
 
 empty :: Dist a k 
 empty = Dist $ M.empty
