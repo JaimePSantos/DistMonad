@@ -18,23 +18,27 @@ import Control.Monad (replicateM)
 import Control.Applicative (liftA3)
 
 data Two = H | T deriving (Show, Eq,Ord)
+data D3 = One | Two | Three deriving (Show, Eq,Ord)
+type CubeVertex = (Bool, Bool, Bool) 
 type StateM2 t a  = StateT Two t a 
-
---data Twice a  = In1 a | In2 a deriving (Show,Eq ,Ord) 
-
---func :: Twice a -> (a,Two)
---func (In1 a) = (a,O)
---func (In2 a) = (a,T)
---func2 :: (a,Two) -> Twice a
---func2 (a,O) = In1 a
---func2 (a,T) = In2 a
---
---func3:: (Two -> a) -> (a,a)
---func3 f = ( f O, f T)
+type StateM3 t a  = StateT D3 t a 
 
 func4 :: (a,a) -> (Two -> a)
 func4 p H = fst p 
 func4 p T = snd p 
+
+--
+--
+func4Cube :: (a,a,a) -> (D3 -> a)
+func4Cube (x,_,_) One = x 
+func4Cube (_,y,_) Two = y 
+func4Cube (_,_,z) Three = z 
+
+
+
+
+
+
 
 --func4 :: [a] -> Int -> a) 
 --examplefunc1 :: Num a => a -> StateT Two [] a

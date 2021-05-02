@@ -12,6 +12,7 @@ import Data.Complex
 import Control.Monad       (liftM, ap,mapM)
 import Data.Ratio
 import qualified AsMonad as AM 
+import qualified Data.Semiring as SM
 
 --TODO: Perceber como mudar de complex float para complex rational ou assim.
 type QDist  = AsMonDist(Complex Float)
@@ -24,15 +25,11 @@ initCondQuantumMap :: M2 (QDist) Int
 initCondQuantumMap = M2 $ Pair ( fromListAM [(In1 0, 1 :: Complex Float)] , fromListAM [(In2 0, 1 :: Complex Float)])
 --
 quantumWalkNMap :: (Ord a,Num a) => Int -> M2 (QDist) a -> M2 (QDist) a
---quantumWalkN = undefined
 quantumWalkNMap (0) state = state
 quantumWalkNMap n state =  quantumWalkNMap (n-1) (state >>= hadamardCoinMap) 
---quantumWalkN n state = quantumWalkN (n-1) (state' `AM.ordBind`  hadamardCoinMap') where
---  state' = unM2 $ state
---  hadamardCoinMap' a = unM2 $ hadamardCoinMap a
 
---quantumWalkN n state =  quantumWalkN (n-1) (M2 $ state `AM.ordBind`  hadamardCoinMap) 
 
---initCondQuantum = return distExample :: M2 (Dist Rational) (Dist Rational Int)
---initCondClassical = return 0 :: M2 (Vec (Rational)) (Int)
+--type QDist2 a = AsMonDist(SM.Semiring(Float))
 
+thing :: (SM.Semiring a, Num a) => a
+thing = 1  
