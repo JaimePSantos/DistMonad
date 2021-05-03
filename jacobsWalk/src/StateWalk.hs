@@ -88,12 +88,14 @@ stateInitCubeCondQMap = StateT $ func4Cube(x,y,z) where
    y = fromListAM[((((False,False,False),Two)),1 :: Complex Float)]  
    z = fromListAM[((((False,False,False),Three)),1 :: Complex Float)]  
 
-coinAmplitude = 1/sqrt(3) :+ 0 :: Complex Float 
+coinAmplitude = 1/sqrt(3) :+ 0 :: Complex Float
+d=3
+w = mkPolar 1 (2*pi/d)
 stateCubeCoinMap :: (Bool,Bool,Bool) -> StateM3 (QDist) (Bool,Bool,Bool) 
 stateCubeCoinMap (x,y,z) = StateT $ func4Cube (x',y',z') where
   x' = fromListAM[(((not(x),y,z),One),coinAmplitude),(((x,not(y),z),Two),coinAmplitude),(((x,y,not(z)),Three),coinAmplitude)]
-  y' = fromListAM[(((not(x),y,z),One),coinAmplitude),(((x,not(y),z),Two),coinAmplitude),(((x,y,not(z)),Three),coinAmplitude)]
-  z' = fromListAM[(((not(x),y,z),One),coinAmplitude),(((x,not(y),z),Two),coinAmplitude),(((x,y,not(z)),Three),coinAmplitude)]
+  y' = fromListAM[(((not(x),y,z),One),coinAmplitude),(((x,not(y),z),Two),coinAmplitude*w),(((x,y,not(z)),Three),coinAmplitude*(w*w))]
+  z' = fromListAM[(((not(x),y,z),One),coinAmplitude),(((x,not(y),z),Two),coinAmplitude*(w*w)),(((x,y,not(z)),Three),coinAmplitude*w)]
 
 stateQuantumWalkCubeMap ::  Int -> StateM3 (QDist) (Bool,Bool,Bool) -> StateM3 (QDist) (Bool,Bool,Bool) 
 stateQuantumWalkCubeMap (0) state = state
@@ -104,3 +106,10 @@ probsStateCube n = mapStateT getProbsAM $ stateQuantumWalkCubeMap n stateInitCub
 
 stateWalkCubeProbs ::  Int -> CDist (Bool,Bool,Bool) 
 stateWalkCubeProbs n = evalStateT(probsStateCube n) One 
+
+--TODO: Fazer histograma para walk classica cubo e walk quantica cubo.
+--TODO: Fazer grover coin e dft.
+
+convFunc False = 0
+convFunc True = 1
+
